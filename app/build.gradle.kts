@@ -1,9 +1,9 @@
 plugins {
-	java
-	alias(libs.plugins.spring.boot)
-	alias(libs.plugins.gg.jte)
-	id("java-library-conventions")
-	id("spotless-conventions")
+    java
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.gg.jte)
+    id("java-library-conventions")
+    id("spotless-conventions")
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -16,20 +16,18 @@ val versionPatch = 0
 
 version = "v$versionMajor.$versionMinor.$versionPatch"
 
-repositories {
-	mavenCentral()
-}
+repositories { mavenCentral() }
 
 dependencies {
-	implementation(libs.spring.boot.starter.web)
-	implementation(libs.spring.boot.starter.actuator)
-	implementation(libs.gg.jte.jte)
-	implementation(libs.gg.jte.spring.boot)
-	testImplementation(libs.spring.boot.starter.test)
-	testRuntimeOnly(libs.junit.platform.launcher)
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.gg.jte.jte)
+    implementation(libs.gg.jte.spring.boot)
+    testImplementation(libs.spring.boot.starter.test)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 jte {
-	generate()
-	binaryStaticContent = true
+    generate()
+    binaryStaticContent = true
 }
