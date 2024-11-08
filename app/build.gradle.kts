@@ -21,9 +21,19 @@ repositories { mavenCentral() }
 dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.actuator)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.validation)
+    implementation(libs.flyway.core)
+    implementation(libs.flyway.database.postgresql)
     implementation(libs.gg.jte.jte)
     implementation(libs.gg.jte.spring.boot)
+    runtimeOnly(libs.database.postgresql)
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.testcontainers)
+    testImplementation(platform(libs.testcontainers.bom))
+    testImplementation(libs.testcontainers.common)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testImplementation(libs.testcontainers.postgresql)
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 

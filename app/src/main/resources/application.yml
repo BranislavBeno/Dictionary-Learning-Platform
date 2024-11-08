@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: dictionary-learning-platform
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  threads:
+    virtual:
+      enabled: true
+
+gg:
+  jte:
+    development-mode: true
