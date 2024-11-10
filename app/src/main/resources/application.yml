@@ -9,6 +9,18 @@ spring:
     virtual:
       enabled: true
 
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: info,health,sbom
+server:
+  error:
+    whitelabel:
+      enabled: false
 gg:
   jte:
     development-mode: true

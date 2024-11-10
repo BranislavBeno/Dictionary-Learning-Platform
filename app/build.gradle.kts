@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     java
     alias(libs.plugins.spring.boot)
@@ -31,5 +33,8 @@ dependencies {
     testImplementation(libs.testcontainers.common)
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgresql)
+    testCompileOnly(libs.spring.boot.devtools)
     testRuntimeOnly(libs.junit.platform.launcher)
 }
+
+tasks.getByName<BootJar>("bootJar") { this.archiveFileName.set("dictionary-learning-platform.jar") }
