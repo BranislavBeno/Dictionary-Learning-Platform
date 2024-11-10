@@ -21,6 +21,3 @@ server:
   error:
     whitelabel:
       enabled: false
-gg:
-  jte:
-    development-mode: true
