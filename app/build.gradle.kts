@@ -1,7 +1,6 @@
 plugins {
     java
     alias(libs.plugins.spring.boot)
-    alias(libs.plugins.gg.jte)
     id("java-library-conventions")
     id("spotless-conventions")
 }
@@ -25,8 +24,6 @@ dependencies {
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.flyway.core)
     implementation(libs.flyway.database.postgresql)
-    implementation(libs.gg.jte.jte)
-    implementation(libs.gg.jte.spring.boot)
     runtimeOnly(libs.database.postgresql)
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.boot.testcontainers)
@@ -35,9 +32,4 @@ dependencies {
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.testcontainers.postgresql)
     testRuntimeOnly(libs.junit.platform.launcher)
-}
-
-jte {
-    generate()
-    binaryStaticContent = true
 }
