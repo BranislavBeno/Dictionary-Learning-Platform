@@ -18,13 +18,27 @@ class WordRepositoryTest extends BaseTestRepository implements WithAssertions {
     void testFindAll() {
         List<Word> words = repository.findAll();
 
-        assertThat(words).hasSize(5);
+        assertThat(words).hasSize(9);
     }
 
     @Test
     void testFindAllByUserId() {
         Set<WordDto> words = repository.findAllByUserId(1);
 
+        assertThat(words).hasSize(7);
+    }
+
+    @Test
+    void testFindAllByUserIdByGrade() {
+        Set<WordDto> words = repository.findAllByUserIdByGrade(1, 2);
+
         assertThat(words).hasSize(3);
+    }
+
+    @Test
+    void testFindAllByUserIdByGradeByLesson() {
+        Set<WordDto> words = repository.findAllByUserIdByGradeByLesson(1, 2, 2);
+
+        assertThat(words).hasSize(1);
     }
 }
