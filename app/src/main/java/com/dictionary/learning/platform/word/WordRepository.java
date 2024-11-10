@@ -8,9 +8,9 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     @Query(
             """
-             SELECT w
+             SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.lesson, w.grade)
              FROM Word w
              LEFT JOIN w.user u
              WHERE u.id = :id""")
-    Set<Word> findAllByUserId(long id);
+    Set<WordDto> findAllByUserId(long id);
 }

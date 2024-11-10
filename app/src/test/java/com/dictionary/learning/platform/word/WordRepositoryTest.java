@@ -23,7 +23,7 @@ class WordRepositoryTest extends BaseTestRepository implements WithAssertions {
 
     @Test
     void testFindAllByUserId() {
-        Set<Word> words = repository.findAllByUserId(1);
+        Set<WordDto> words = repository.findAllByUserId(1);
 
         assertThat(words).hasSize(3);
     }
