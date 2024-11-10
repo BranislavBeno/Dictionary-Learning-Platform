@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 
 class SchemaValidationTest extends BaseTestRepository {
 
-   @Test
-   @DisplayName("Only check DB schema validity")
-   void testSchemaValidity() {
-      // Only check DB schema validity
-   }
+    @Test
+    @DisplayName("Only check DB schema validity")
+    void testSchemaValidity() {
+        // Only check DB schema validity
+    }
 }
