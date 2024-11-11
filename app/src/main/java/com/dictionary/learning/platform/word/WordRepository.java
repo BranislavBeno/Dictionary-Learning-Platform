@@ -37,6 +37,6 @@ public interface WordRepository extends JpaRepository<Word, Long> {
          SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.lesson, w.grade)
          FROM Word w
          LEFT JOIN w.user u
-         WHERE u.id = :id AND w.grade = :grade AND w.lesson BETWEEN :lesson1 AND :lesson2""")
-    Set<WordDto> findAllByUserIdByGradeBetweenLessons(long id, int grade, int lesson1, int lesson2);
+         WHERE u.id = :id AND w.grade = :grade AND w.lesson BETWEEN :firstLesson AND :lastLesson""")
+    Set<WordDto> findAllByUserIdByGradeBetweenLessons(long id, int grade, int firstLesson, int lastLesson);
 }

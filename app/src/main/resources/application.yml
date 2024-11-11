@@ -21,3 +21,8 @@ server:
   error:
     whitelabel:
       enabled: false
+
+word:
+  service:
+    page:
+      size: 7
