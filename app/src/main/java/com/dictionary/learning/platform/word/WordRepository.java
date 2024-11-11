@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface WordRepository extends JpaRepository<Word, Long> {
+interface WordRepository extends JpaRepository<Word, Long> {
 
     @Query(
             """
