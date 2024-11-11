@@ -44,4 +44,11 @@ class WordRepositoryTest extends BaseTestRepository implements WithAssertions {
 
       assertThat(words).hasSize(1);
    }
+
+   @Test
+   void testFindAllByUserIdByGradeBetweenLessons() {
+      Set<WordDto> words = repository.findAllByUserIdByGradeBetweenLessons(1, 2, 1, 2);
+
+      assertThat(words).hasSize(3);
+   }
 }

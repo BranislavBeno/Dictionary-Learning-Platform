@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-interface WordRepository extends JpaRepository<Word, Long> {
+public interface WordRepository extends JpaRepository<Word, Long> {
 
     @Query(
             """
@@ -31,4 +31,12 @@ interface WordRepository extends JpaRepository<Word, Long> {
          LEFT JOIN w.user u
          WHERE u.id = :id AND w.grade = :grade AND w.lesson = :lesson""")
     Set<WordDto> findAllByUserIdByGradeByLesson(long id, int grade, int lesson);
+
+    @Query(
+            """
+         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.lesson, w.grade)
+         FROM Word w
+         LEFT JOIN w.user u
+         WHERE u.id = :id AND w.grade = :grade AND w.lesson BETWEEN :lesson1 AND :lesson2""")
+    Set<WordDto> findAllByUserIdByGradeBetweenLessons(long id, int grade, int lesson1, int lesson2);
 }
