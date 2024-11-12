@@ -17,10 +17,15 @@ management:
     web:
       exposure:
         include: info,health,sbom
+
 server:
   error:
     whitelabel:
       enabled: false
+
+gg:
+  jte:
+    development-mode: true
 
 word:
   service:
