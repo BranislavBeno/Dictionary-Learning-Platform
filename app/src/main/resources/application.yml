@@ -27,6 +27,12 @@ gg:
   jte:
     development-mode: true
 
+logging:
+  level:
+    org:
+      springframework:
+        security: ERROR #change to DEBUG or INFO for more information about spring security
+
 word:
   service:
     page:
