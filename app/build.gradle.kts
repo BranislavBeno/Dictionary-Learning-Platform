@@ -4,6 +4,7 @@ plugins {
     java
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.gg.jte)
+    alias(libs.plugins.git.properties)
     id("java-library-conventions")
     id("spotless-conventions")
 }
@@ -45,5 +46,7 @@ jte {
     generate()
     binaryStaticContent = true
 }
+
+springBoot { buildInfo() }
 
 tasks.getByName<BootJar>("bootJar") { this.archiveFileName.set("dictionary-learning-platform.jar") }

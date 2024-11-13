@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,16 +19,20 @@ public class SecurityConfig {
     public static final String LOGIN_PAGE = "/login";
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> auth.requestMatchers(LOGIN_PAGE, "/error")
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .authorizeHttpRequests(auth -> auth.requestMatchers(LOGIN_PAGE, "/error", "/actuator/info")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(login -> login.loginPage(LOGIN_PAGE)
                         .defaultSuccessUrl("/learning")
                         .permitAll())
-                .logout(logout -> logout.logoutSuccessUrl("/"))
-                .build();
+                .logout(logout -> logout.logoutSuccessUrl(LOGIN_PAGE))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                        .maximumSessions(1));
+
+        return httpSecurity.build();
     }
 
     @Bean
