@@ -1,10 +1,8 @@
-name: Application Deploy
+# This workflow deploys application.
+name: 02 - Deploy application
 
 on:
-  workflow_run:
-    workflows: [ Application Tests ]
-    types: [ completed ]
-    branches: [ master ]
+  workflow_dispatch
 
 jobs:
   changes:
