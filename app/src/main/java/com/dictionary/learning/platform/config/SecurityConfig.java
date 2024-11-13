@@ -26,9 +26,8 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
-                .formLogin(login -> login.loginPage(LOGIN_PAGE)
-                        .defaultSuccessUrl("/learning")
-                        .permitAll())
+                .formLogin(login ->
+                        login.loginPage(LOGIN_PAGE).defaultSuccessUrl("/").permitAll())
                 .logout(logout -> logout.logoutSuccessUrl(LOGIN_PAGE).deleteCookies("JSESSIONID"))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                         .maximumSessions(1));
