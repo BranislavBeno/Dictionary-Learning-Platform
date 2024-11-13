@@ -3,7 +3,6 @@
 @import com.dictionary.learning.platform.ui.CsrfHiddenInput
 
 @param String username = ""
-@param String email = null
 @param Collection<? extends GrantedAuthority> authorities = null
 @param CsrfHiddenInput csrfHiddenInput
 
@@ -14,13 +13,10 @@ content = @`
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
-                        <h1 class="text-xl font-semibold">Dashboard</h1>
+                        <h1 class="text-xl font-semibold">Learning</h1>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <span class="text-gray-700">Welcome, ${username}</span>
-                        @if(email != null)
-                            <span class="text-gray-500 text-sm">${email}</span>
-                        @endif
+                        <span class="text-gray-700">Hi, ${username}</span>
                         <form action="/logout" method="post">
                             ${csrfHiddenInput}
                             <button type="submit"
@@ -51,12 +47,6 @@ content = @`
                                     </span>
                                     @endfor
                                 </div>
-                            </div>
-                        @endif
-                        @if(email != null)
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Email</p>
-                                <p class="mt-1 text-lg text-gray-900">${email}</p>
                             </div>
                         @endif
                     </div>

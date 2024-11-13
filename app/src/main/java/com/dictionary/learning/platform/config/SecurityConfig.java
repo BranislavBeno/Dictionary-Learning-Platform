@@ -24,7 +24,7 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
                 .formLogin(login -> login.loginPage(LOGIN_PAGE)
-                        .defaultSuccessUrl("/dashboard")
+                        .defaultSuccessUrl("/learning")
                         .permitAll())
                 .logout(logout -> logout.logoutSuccessUrl("/"))
                 .build();
