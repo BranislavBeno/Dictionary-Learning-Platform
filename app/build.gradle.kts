@@ -1,4 +1,5 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
     java
@@ -50,3 +51,5 @@ jte {
 springBoot { buildInfo() }
 
 tasks.getByName<BootJar>("bootJar") { this.archiveFileName.set("dictionary-learning-platform.jar") }
+
+tasks.getByName<BootRun>("bootTestRun") { this.jvmArgs = listOf("-Dspring.profiles.active=dev") }

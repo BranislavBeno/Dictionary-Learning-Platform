@@ -1,0 +1,3 @@
+spring:
+  flyway:
+    locations: 'classpath:/dev/db/migration/postgresql'

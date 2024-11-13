@@ -17,6 +17,9 @@ management:
     web:
       exposure:
         include: info,health,sbom
+  info:
+    git:
+      mode: simple
 
 server:
   error:

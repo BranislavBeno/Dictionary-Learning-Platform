@@ -2,8 +2,11 @@ package com.dictionary.learning.platform.user;
 
 import com.dictionary.learning.platform.repository.BaseTestRepository;
 import java.util.List;
+import java.util.Optional;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -18,5 +21,13 @@ class UserRepositoryTest extends BaseTestRepository implements WithAssertions {
         List<User> users = repository.findAll();
 
         assertThat(users).hasSize(2);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"jane,admin", "bob,user"})
+    void findByUsername(String username, String role) {
+        Optional<User> user = repository.findByUsername(username);
+
+        assertThat(user).hasValueSatisfying(u -> assertThat(u.getRole()).isEqualTo(role));
     }
 }
