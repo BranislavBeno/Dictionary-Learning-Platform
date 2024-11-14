@@ -1,7 +1,7 @@
 @import com.dictionary.learning.platform.ui.CsrfHiddenInput
 
 @param String username = ""
-@param CsrfHiddenInput csrfHiddenInput
+@param CsrfHiddenInput csrfHiddenInput = null
 @param gg.jte.Content content
 
 <!DOCTYPE html>
