@@ -13,7 +13,6 @@ class ControllerUtils {
     static void addUserDetailsToModel(Authentication authentication, Model model) {
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             model.addAttribute("username", userDetails.getUsername());
-            model.addAttribute("authorities", userDetails.getAuthorities());
         }
     }
 
