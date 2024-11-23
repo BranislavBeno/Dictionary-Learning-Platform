@@ -1,5 +1,5 @@
 [versions]
-gg-jte="3.1.12"
+gg-jte="3.1.15"
 
 [libraries]
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }

@@ -4,8 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LearningController {
@@ -19,9 +18,10 @@ public class LearningController {
     }
 
     @PostMapping("/choose-lesson")
-    public String chooseLesson() {
-        System.out.println();
+    public String chooseLesson(String grade, String lesson) {
+        System.out.println(grade);
+        System.out.println(lesson);
 
-        return "redirect:/home";
+        return "redirect:/";
     }
 }

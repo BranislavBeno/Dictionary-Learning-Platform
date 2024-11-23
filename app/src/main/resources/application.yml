@@ -29,6 +29,7 @@ server:
 gg:
   jte:
     development-mode: true
+    use-precompiled-templates: false
 
 logging:
   level:
