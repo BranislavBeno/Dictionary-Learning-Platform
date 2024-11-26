@@ -18,9 +18,10 @@ public class LearningController {
     }
 
     @PostMapping("/choose-lesson")
-    public String chooseLesson(String grade, String lesson) {
+    public String chooseLesson(int grade, String lesson, String language) {
         System.out.println(grade);
         System.out.println(lesson);
+        System.out.println(language);
 
         return "redirect:/";
     }
