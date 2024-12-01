@@ -1,7 +1,7 @@
 @import com.dictionary.learning.platform.ui.CsrfHiddenInput
 
 @param String username = ""
-@param CsrfHiddenInput csrfHiddenInput = null
+@param CsrfHiddenInput csrfHiddenInput
 @param gg.jte.Content content
 
 <!DOCTYPE html>
@@ -25,7 +25,7 @@
                         <form action="/logout" method="post">
                             ${csrfHiddenInput}
                             <button type="submit"
-                                    class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                                 Logout
                             </button>
                         </form>

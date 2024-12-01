@@ -3,6 +3,7 @@
 @param CsrfHiddenInput csrfHiddenInput
 
 @template.layout.main(
+csrfHiddenInput = csrfHiddenInput,
 content = @`
     <div class="bg-white shadow rounded-lg p-6">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Choose lesson(s)</h2>
@@ -11,26 +12,26 @@ content = @`
             <div class="grid gap-6 mb-6 md:grid-cols-2">
                 <div>
                     <label for="grade" class="block mb-2 text-sm font-medium text-gray-900">Grade</label>
-                    <input type="number" id="grade" name="grade" placeholder="0" pattern="[0-9]" required
-                           class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-600 focus:border-indigo-600 focus:z-10 sm:text-sm">
+                    <input value="5" type="number" id="grade" name="grade" placeholder="0" pattern="[0-9]" required
+                           class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
                 </div>
                 <div>
                     <label for="lesson" class="block mb-2 text-sm font-medium text-gray-900">Lesson(s)</label>
-                    <input type="text" id="lesson" name="lesson" placeholder="1,3-5" pattern="[0-9][0-9,-]*" required
-                           class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-600 focus:border-indigo-600 focus:z-10 sm:text-sm">
+                    <input value="1" type="text" id="lesson" name="lesson" placeholder="1,3-5" pattern="[0-9][0-9,-]*" required
+                           class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
                 </div>
                 <div>
                     <label for="language" class="block mb-2 text-sm font-medium text-gray-900">Translate to</label>
                     <select id="language" name="language" size="2"
-                            class="appearance-none rounded-lg block w-full p-2.5 border border-gray-300 text-gray-900 focus:outline-none focus:ring-indigo-600 focus:border-indigo-600 focus:z-10 sm:text-sm">
-                        <option>EN</option>
+                            class="appearance-none rounded-lg block w-full p-2.5 border border-gray-300 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
+                        <option selected>EN</option>
                         <option>SK</option>
                     </select>
                 </div>
             </div>
             <div>
                 <button type="submit"
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     Submit
                 </button>
             </div>
