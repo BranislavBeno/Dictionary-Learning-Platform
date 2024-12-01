@@ -62,17 +62,17 @@ class WordServiceTest implements WithAssertions {
     }
 
     @Test
-    void testFindAllByUserIdByGradeByLesson() {
+    void testFindAllByUserNameByGradeByLesson() {
         // given
-        long userId = 1;
+        String userName = "bob";
         int grade = 1;
         int lesson = 1;
-        Mockito.when(repository.findAllByUserIdByGradeByLesson(userId, grade, lesson))
+        Mockito.when(repository.findAllByUserNameByGradeByLesson(userName, grade, lesson))
                 .thenReturn(Set.of(wordDto));
         // when
-        service.findAllByUserIdByGradeByLesson(userId, grade, lesson);
+        service.findAllByUserNameByGradeByLesson(userName, grade, lesson);
         // then
-        Mockito.verify(repository).findAllByUserIdByGradeByLesson(userId, grade, lesson);
+        Mockito.verify(repository).findAllByUserNameByGradeByLesson(userName, grade, lesson);
     }
 
     @Test

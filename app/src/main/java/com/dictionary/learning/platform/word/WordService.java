@@ -23,8 +23,8 @@ public final class WordService {
         return repository.findAllByUserIdByGrade(userId, grade);
     }
 
-    Set<WordDto> findAllByUserIdByGradeByLesson(long userId, int grade, int lesson) {
-        return repository.findAllByUserIdByGradeByLesson(userId, grade, lesson);
+    Set<WordDto> findAllByUserNameByGradeByLesson(String userName, int grade, int lesson) {
+        return repository.findAllByUserNameByGradeByLesson(userName, grade, lesson);
     }
 
     Set<WordDto> findAllByUserIdByGradeBetweenLessons(long userId, int grade, int firstLesson, int lastLesson) {
