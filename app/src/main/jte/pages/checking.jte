@@ -1,11 +1,13 @@
 @import com.dictionary.learning.platform.ui.CsrfHiddenInput
 
+@param String username = ""
 @param CsrfHiddenInput csrfHiddenInput
 @param String question
 @param String answer
 
 @template.layout.main(
 csrfHiddenInput = csrfHiddenInput,
+username = username,
 content = @`
     <div class="bg-white shadow rounded-lg p-6">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Guess word</h2>
@@ -29,7 +31,7 @@ content = @`
                 </div>
             </div>
             <div>
-                <button type="submit"
+                <button type="submit" autofocus
                         class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     Next
                 </button>

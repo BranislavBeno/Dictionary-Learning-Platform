@@ -1,9 +1,11 @@
 @import com.dictionary.learning.platform.ui.CsrfHiddenInput
 
+@param String username = ""
 @param CsrfHiddenInput csrfHiddenInput
 
 @template.layout.main(
 csrfHiddenInput = csrfHiddenInput,
+username = username,
 content = @`
     <div class="bg-white shadow rounded-lg p-6">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Choose lesson(s)</h2>
