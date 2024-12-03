@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class WordController {
+public class LearningController {
 
     private final WordService wordService;
     private Iterator<WordToCheck> iterator;
     private WordToCheck wordToCheck;
 
-    public WordController(WordService wordService) {
+    public LearningController(WordService wordService) {
         this.wordService = wordService;
     }
 
