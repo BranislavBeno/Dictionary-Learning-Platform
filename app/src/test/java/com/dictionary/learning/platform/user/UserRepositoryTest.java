@@ -3,6 +3,7 @@ package com.dictionary.learning.platform.user;
 import com.dictionary.learning.platform.repository.BaseTestRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,7 +20,12 @@ class UserRepositoryTest extends BaseTestRepository implements WithAssertions {
     @Test
     void testFindAll() {
         List<User> users = repository.findAll();
+        assertThat(users).hasSize(2);
+    }
 
+    @Test
+    void testFindAllUsers() {
+        Set<UserDto> users = repository.findAllUsers();
         assertThat(users).hasSize(2);
     }
 
@@ -27,7 +33,6 @@ class UserRepositoryTest extends BaseTestRepository implements WithAssertions {
     @CsvSource({"jane,admin", "bob,user"})
     void findByUsername(String username, String role) {
         Optional<User> user = repository.findByUsername(username);
-
         assertThat(user).hasValueSatisfying(u -> assertThat(u.getRole()).isEqualTo(role));
     }
 }
