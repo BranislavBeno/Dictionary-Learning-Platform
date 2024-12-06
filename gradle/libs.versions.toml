@@ -31,5 +31,5 @@ diffplug-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", v
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version = "3.4.0" }
-gg-jte = { id = "gg.jte.gradle", version = "3.1.12" }
+gg-jte = { id = "gg.jte.gradle", version.ref = "gg-jte" }
 git-properties = { id = "com.gorylenko.gradle-git-properties", version = "2.4.2" }

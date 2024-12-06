@@ -10,7 +10,7 @@ public class UserService {
         this.repository = repository;
     }
 
-    Set<UserDto> findAllUsers() {
+    public Set<UserDto> findAllUsers() {
         return repository.findAllUsers();
     }
 }

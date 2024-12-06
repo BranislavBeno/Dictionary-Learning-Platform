@@ -1,7 +1,10 @@
 @import com.dictionary.learning.platform.ui.CsrfHiddenInput
+@import java.util.List
 
 @param String username = ""
 @param CsrfHiddenInput csrfHiddenInput
+@param List<String> users
+
 
 @template.layout.main(
 csrfHiddenInput = csrfHiddenInput,
@@ -24,10 +27,11 @@ content = @`
                 </div>
                 <div>
                     <label for="forUser" class="block mb-2 text-sm font-medium text-gray-900">For user</label>
-                    <select id="forUser" name="forUser" size="2"
+                    <select id="forUser" name="forUser" size="${users.size()}"
                             class="appearance-none rounded-lg block w-full p-2.5 border border-gray-300 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
-                        <option>jane</option>
-                        <option>bob</option>
+                        @for(String user: users)
+                            <option>${user}</option>
+                        @endfor
                     </select>
                 </div>
             </div>
