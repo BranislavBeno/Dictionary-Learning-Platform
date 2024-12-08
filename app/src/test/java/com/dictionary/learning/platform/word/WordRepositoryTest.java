@@ -1,7 +1,7 @@
 package com.dictionary.learning.platform.word;
 
 import com.dictionary.learning.platform.repository.BaseTestRepository;
-import java.util.Set;
+import java.util.List;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,29 +25,23 @@ class WordRepositoryTest extends BaseTestRepository implements WithAssertions {
     }
 
     @ParameterizedTest
-    @CsvSource({"0,5", "1,2"})
-    void testFindAllByUserId(int pageNumber, int expected) {
-        Page<WordDto> words = repository.findAllByUserId(PageRequest.of(pageNumber, 5), 1);
+    @CsvSource({"0,3", "1,1"})
+    void testFindAllByUserNameByGradeByLessonPaginated(int pageNumber, int expected) {
+        Page<WordDto> words =
+                repository.findAllByUserNameByGradeByLessonPaginated(PageRequest.of(pageNumber, 3), "jane", 1, 1);
         assertThat(words).hasSize(expected);
     }
 
     @Test
-    void testFindAllByUserIdByGrade() {
-        Set<WordDto> words = repository.findAllByUserIdByGrade(1, 2);
-
-        assertThat(words).hasSize(3);
-    }
-
-    @Test
     void testFindAllByUserIdByGradeByLesson() {
-        Set<WordDto> words = repository.findAllByUserNameByGradeByLesson("jane", 2, 2);
+        List<WordDto> words = repository.findAllByUserNameByGradeByLesson("jane", 2, 2);
 
         assertThat(words).hasSize(1);
     }
 
     @Test
     void testFindAllByUserIdByGradeBetweenLessons() {
-        Set<WordDto> words = repository.findAllByUserIdByGradeBetweenLessons(1, 2, 1, 2);
+        List<WordDto> words = repository.findAllByUserIdByGradeBetweenLessons(1, 2, 1, 2);
 
         assertThat(words).hasSize(3);
     }

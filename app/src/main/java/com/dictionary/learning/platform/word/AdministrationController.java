@@ -5,7 +5,6 @@ import com.dictionary.learning.platform.user.UserDto;
 import com.dictionary.learning.platform.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Set;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,7 @@ public class AdministrationController {
             ControllerUtils.addCsrfTokenToModel(request, model);
             model.addAttribute("username", username);
 
-            Set<WordDto> words = wordService.findAllByUserNameByGradeByLesson(forUser, grade, lesson);
+            List<WordDto> words = wordService.findAllByUserNameByGradeByLesson(forUser, grade, lesson);
             model.addAttribute("words", words);
         }
 

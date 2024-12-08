@@ -3,8 +3,7 @@ package com.dictionary.learning.platform.word;
 import com.dictionary.learning.platform.ui.ControllerUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Iterator;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -44,7 +43,7 @@ public class LearningController {
             ControllerUtils.addCsrfTokenToModel(request, model);
             model.addAttribute("username", username);
 
-            Set<WordToCheck> wordsToCheck = convertWordsToQuestionsAndAnswers(grade, lesson, username, language);
+            List<WordToCheck> wordsToCheck = convertWordsToQuestionsAndAnswers(grade, lesson, username, language);
             iterator = wordsToCheck.iterator();
             if (iterator.hasNext()) {
                 setModelForGuessing(model);
@@ -90,11 +89,11 @@ public class LearningController {
         model.addAttribute("isCorrect", true);
     }
 
-    private Set<WordToCheck> convertWordsToQuestionsAndAnswers(
+    private List<WordToCheck> convertWordsToQuestionsAndAnswers(
             int grade, int lesson, String username, String language) {
-        Set<WordDto> words = wordService.findAllByUserNameByGradeByLesson(username, grade, lesson);
+        List<WordDto> words = wordService.findAllByUserNameByGradeByLesson(username, grade, lesson);
 
-        return words.stream().map(w -> setQuestionsAndAnswers(language, w)).collect(Collectors.toSet());
+        return words.stream().map(w -> setQuestionsAndAnswers(language, w)).toList();
     }
 
     private static WordToCheck setQuestionsAndAnswers(String language, WordDto w) {

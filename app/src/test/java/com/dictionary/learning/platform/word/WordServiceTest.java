@@ -1,7 +1,7 @@
 package com.dictionary.learning.platform.word;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,27 +38,20 @@ class WordServiceTest implements WithAssertions {
     }
 
     @Test
-    void testFindAllByUserId() {
+    void testFindAllByUserNameByGradeByLessonPaginated() {
         // given
         int page = 1;
-        long userId = 1;
-        Mockito.when(repository.findAllByUserId(getPageRequest(page), userId)).thenReturn(wordPage);
-        // when
-        service.findAllByUserId(page, userId);
-        // then
-        Mockito.verify(repository).findAllByUserId(getPageRequest(page), userId);
-    }
-
-    @Test
-    void testFindAllByUserIdByGrade() {
-        // given
-        long userId = 1;
+        String userName = "jane";
         int grade = 1;
-        Mockito.when(repository.findAllByUserIdByGrade(userId, grade)).thenReturn(Set.of(wordDto));
+        int lesson = 1;
+        Mockito.when(repository.findAllByUserNameByGradeByLessonPaginated(
+                        getPageRequest(page), userName, grade, lesson))
+                .thenReturn(wordPage);
         // when
-        service.findAllByUserIdByGrade(userId, grade);
+        service.findAllByUserNameByGradeByLessonPaginated(page, userName, grade, lesson);
         // then
-        Mockito.verify(repository).findAllByUserIdByGrade(userId, grade);
+        Mockito.verify(repository)
+                .findAllByUserNameByGradeByLessonPaginated(getPageRequest(page), userName, grade, page);
     }
 
     @Test
@@ -68,7 +61,7 @@ class WordServiceTest implements WithAssertions {
         int grade = 1;
         int lesson = 1;
         Mockito.when(repository.findAllByUserNameByGradeByLesson(userName, grade, lesson))
-                .thenReturn(Set.of(wordDto));
+                .thenReturn(List.of(wordDto));
         // when
         service.findAllByUserNameByGradeByLesson(userName, grade, lesson);
         // then
@@ -83,7 +76,7 @@ class WordServiceTest implements WithAssertions {
         int firstLesson = 1;
         int lastLesson = 2;
         Mockito.when(repository.findAllByUserIdByGradeBetweenLessons(userId, grade, firstLesson, lastLesson))
-                .thenReturn(Set.of(wordDto));
+                .thenReturn(List.of(wordDto));
         // when
         service.findAllByUserIdByGradeBetweenLessons(userId, grade, firstLesson, lastLesson);
         // then

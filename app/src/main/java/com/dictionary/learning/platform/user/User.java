@@ -3,8 +3,8 @@ package com.dictionary.learning.platform.user;
 import com.dictionary.learning.platform.word.Word;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -25,7 +25,7 @@ public class User {
     private String role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Word> words = new HashSet<>();
+    private List<Word> words = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -59,21 +59,25 @@ public class User {
         this.role = role;
     }
 
-    public Set<Word> getWords() {
+    public List<Word> getWords() {
         return words;
     }
 
-    public void setWords(Set<Word> words) {
+    public void setWords(List<Word> words) {
         this.words = words;
     }
 
-    public void addWord(Word word) {
+    public User addWord(Word word) {
         words.add(word);
         word.setUser(this);
+
+        return this;
     }
 
-    public void removeWord(Word word) {
+    public User removeWord(Word word) {
         words.remove(word);
         word.setUser(null);
+
+        return this;
     }
 }
