@@ -4,13 +4,17 @@ import com.dictionary.learning.platform.ui.ControllerUtils;
 import com.dictionary.learning.platform.user.UserDto;
 import com.dictionary.learning.platform.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdministrationController {
@@ -47,11 +51,44 @@ public class AdministrationController {
             String username = userDetails.getUsername();
             ControllerUtils.addCsrfTokenToModel(request, model);
             model.addAttribute("username", username);
-
-            List<WordDto> words = wordService.findAllByUserNameByGradeByLesson(forUser, grade, lesson);
-            model.addAttribute("words", words);
         }
 
-        return "redirect:/";
+        return "redirect:/manage-words?grade=%d&lesson=%d&forUser=%s".formatted(grade, lesson, forUser);
     }
+
+    @GetMapping("/manage-words")
+    public String words(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam int grade,
+            @RequestParam int lesson,
+            @RequestParam String forUser,
+            Authentication authentication,
+            HttpServletRequest request,
+            Model model) {
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+        ControllerUtils.addCsrfTokenToModel(request, model);
+
+        Page<WordDto> words = wordService.findAllByUserNameByGradeByLessonPaginated(page, forUser, grade, lesson);
+        PageData pageData = providePageData(words);
+        model.addAttribute("words", pageData.content());
+        model.addAttribute("pageNumbers", pageData.pageNumbers());
+
+        return "pages/words";
+    }
+
+    private List<Integer> providePageNumbers(int totalPages) {
+        if (totalPages > 0) {
+            return IntStream.rangeClosed(1, totalPages).boxed().toList();
+        }
+
+        return Collections.emptyList();
+    }
+
+    private PageData providePageData(Page<WordDto> page) {
+        List<Integer> pageNumbers = providePageNumbers(page.getTotalPages());
+
+        return new PageData(page.getContent(), pageNumbers);
+    }
+
+    record PageData(List<WordDto> content, List<Integer> pageNumbers) {}
 }
