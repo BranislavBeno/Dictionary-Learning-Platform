@@ -76,6 +76,14 @@ public class AdministrationController {
         return "pages/words";
     }
 
+    @GetMapping("/add-word")
+    public String addWord(Authentication authentication, HttpServletRequest request, Model model) {
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+        ControllerUtils.addCsrfTokenToModel(request, model);
+
+        return "pages/word-adding";
+    }
+
     private List<Integer> providePageNumbers(int totalPages) {
         if (totalPages > 0) {
             return IntStream.rangeClosed(1, totalPages).boxed().toList();
