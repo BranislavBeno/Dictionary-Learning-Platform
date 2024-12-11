@@ -18,6 +18,14 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
+                        <form action="/" method="get">
+                            <button type="submit"
+                                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                                Home
+                            </button>
+                        </form>
+                    </div>
+                    <div class="flex items-center space-x-4">
                         <h1 class="text-xl font-semibold">Dictionary</h1>
                     </div>
                     <div class="flex items-center space-x-4">

@@ -72,6 +72,9 @@ public class AdministrationController {
         PageData pageData = providePageData(words);
         model.addAttribute("words", pageData.content());
         model.addAttribute("pageNumbers", pageData.pageNumbers());
+        model.addAttribute("forUser", forUser);
+        model.addAttribute("grade", grade);
+        model.addAttribute("lesson", lesson);
 
         return "pages/words";
     }
