@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.IntStream;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,11 +46,8 @@ public class AdministrationController {
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            String username = userDetails.getUsername();
-            ControllerUtils.addCsrfTokenToModel(request, model);
-            model.addAttribute("username", username);
-        }
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
 
         return "redirect:/manage-words?grade=%d&lesson=%d&forUser=%s".formatted(grade, lesson, forUser);
     }
@@ -80,11 +76,37 @@ public class AdministrationController {
     }
 
     @GetMapping("/add-word")
-    public String addWord(Authentication authentication, HttpServletRequest request, Model model) {
+    public String addWord(
+            @RequestParam int grade,
+            @RequestParam int lesson,
+            @RequestParam String forUser,
+            Authentication authentication,
+            HttpServletRequest request,
+            Model model) {
         ControllerUtils.addUserDetailsToModel(authentication, model);
         ControllerUtils.addCsrfTokenToModel(request, model);
+        model.addAttribute("forUser", forUser);
+        model.addAttribute("grade", grade);
+        model.addAttribute("lesson", lesson);
 
         return "pages/word-adding";
+    }
+
+    @PostMapping("/import-word")
+    public String importWord(
+            int grade,
+            int lesson,
+            String forUser,
+            String english,
+            String slovak,
+            Authentication authentication,
+            HttpServletRequest request,
+            Model model) {
+
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        return "redirect:/manage-words?grade=%d&lesson=%d&forUser=%s".formatted(grade, lesson, forUser);
     }
 
     private List<Integer> providePageNumbers(int totalPages) {
