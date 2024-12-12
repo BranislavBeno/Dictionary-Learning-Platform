@@ -67,17 +67,13 @@ public class User {
         this.words = words;
     }
 
-    public User addWord(Word word) {
+    public void addWord(Word word) {
         words.add(word);
         word.setUser(this);
-
-        return this;
     }
 
-    public User removeWord(Word word) {
+    public void removeWord(Word word) {
         words.remove(word);
         word.setUser(null);
-
-        return this;
     }
 }

@@ -1,6 +1,7 @@
 package com.dictionary.learning.platform.word;
 
 import com.dictionary.learning.platform.ui.ControllerUtils;
+import com.dictionary.learning.platform.user.User;
 import com.dictionary.learning.platform.user.UserDto;
 import com.dictionary.learning.platform.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -75,8 +76,8 @@ public class AdministrationController {
         return "pages/words";
     }
 
-    @GetMapping("/add-word")
-    public String addWord(
+    @GetMapping("/new-word")
+    public String newWord(
             @RequestParam int grade,
             @RequestParam int lesson,
             @RequestParam String forUser,
@@ -92,8 +93,8 @@ public class AdministrationController {
         return "pages/word-adding";
     }
 
-    @PostMapping("/import-word")
-    public String importWord(
+    @PostMapping("/add-word")
+    public String addWord(
             int grade,
             int lesson,
             String forUser,
@@ -102,11 +103,29 @@ public class AdministrationController {
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
+        Word word = createWord(grade, lesson, english, slovak);
+        addWord(forUser, word);
 
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
 
         return "redirect:/manage-words?grade=%d&lesson=%d&forUser=%s".formatted(grade, lesson, forUser);
+    }
+
+    private void addWord(String forUser, Word word) {
+        User user = userService.findByUsername(forUser);
+        word.setUser(user);
+        wordService.saveWord(word);
+    }
+
+    private static Word createWord(int grade, int lesson, String english, String slovak) {
+        Word word = new Word();
+        word.setEn(english);
+        word.setSk(slovak);
+        word.setGrade(grade);
+        word.setLesson(lesson);
+
+        return word;
     }
 
     private List<Integer> providePageNumbers(int totalPages) {

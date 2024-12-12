@@ -35,7 +35,7 @@ content = @`
                 </p>
             </div>
         </div>
-        <form action="/import-word" method="POST" autocomplete="off">
+        <form action="/add-word" method="POST" autocomplete="off">
             ${csrfHiddenInput}
             <input type="hidden" name="forUser" value="${forUser}">
             <input type="hidden" name="grade" value="${grade}">

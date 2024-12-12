@@ -1,5 +1,6 @@
 package com.dictionary.learning.platform.user;
 
+import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,18 @@ class UserServiceTest {
 
     @InjectMocks
     private UserService service;
+
+    @Test
+    void findByUsername() {
+        // given
+        String userName = "jane";
+        var user = Mockito.mock(User.class);
+        Mockito.when(repository.findByUsername(userName)).thenReturn(Optional.of(user));
+        // when
+        service.findByUsername(userName);
+        // then
+        Mockito.verify(repository).findByUsername(userName);
+    }
 
     @Test
     void testFindAllByUserId() {
