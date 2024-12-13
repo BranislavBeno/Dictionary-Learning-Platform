@@ -31,7 +31,7 @@ public class LoginController {
 
             Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
             if (authorities != null
-                    && authorities.stream().map(GrantedAuthority::getAuthority).anyMatch(r -> r.equals("admin"))) {
+                    && authorities.stream().map(GrantedAuthority::getAuthority).anyMatch(r -> r.equals("ROLE_ADMIN"))) {
                 return "pages/home";
             }
         }

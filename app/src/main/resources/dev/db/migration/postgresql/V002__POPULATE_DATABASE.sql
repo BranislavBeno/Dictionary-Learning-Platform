@@ -1,6 +1,6 @@
 -- User
-INSERT INTO users (id, username, password, role) VALUES (1, 'jane', '{noop}jane', 'admin');
-INSERT INTO users (id, username, password, role) VALUES (2, 'bob', '{noop}bob', 'user');
+INSERT INTO users (id, username, password, role) VALUES (1, 'jane', '{noop}jane', 'ROLE_ADMIN');
+INSERT INTO users (id, username, password, role) VALUES (2, 'bob', '{noop}bob', 'ROLE_USER');
 -- Word
 INSERT INTO words (id, en, sk, lesson, grade, user_id) VALUES (1, 'father', 'otec', 1, 5, 1);
 INSERT INTO words (id, en, sk, lesson, grade, user_id) VALUES (2, 'mother', 'matka', 1, 5, 1);
