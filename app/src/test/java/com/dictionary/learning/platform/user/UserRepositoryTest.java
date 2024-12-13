@@ -30,7 +30,7 @@ class UserRepositoryTest extends BaseTestRepository implements WithAssertions {
     }
 
     @ParameterizedTest
-    @CsvSource({"jane,admin", "bob,user"})
+    @CsvSource({"jane,ROLE_ADMIN", "bob,ROLE_USER"})
     void findByUsername(String username, String role) {
         Optional<User> user = repository.findByUsername(username);
         assertThat(user).hasValueSatisfying(u -> assertThat(u.getRole()).isEqualTo(role));
