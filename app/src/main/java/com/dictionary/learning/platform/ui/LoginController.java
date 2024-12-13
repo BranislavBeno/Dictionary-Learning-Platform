@@ -1,7 +1,6 @@
 package com.dictionary.learning.platform.ui;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Collection;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +21,14 @@ public class LoginController {
         return "pages/login";
     }
 
+    /**
+     * Handles the home page request.
+     *
+     * @param authentication the authentication object containing the user's details
+     * @param request the HTTP servlet request
+     * @param model the model to add attributes to
+     * @return the name of the view to be rendered
+     */
     @GetMapping("/")
     public String home(Authentication authentication, HttpServletRequest request, Model model) {
         ControllerUtils.addCsrfTokenToModel(request, model);
@@ -29,9 +36,11 @@ public class LoginController {
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             model.addAttribute("username", userDetails.getUsername());
 
-            Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-            if (authorities != null
-                    && authorities.stream().map(GrantedAuthority::getAuthority).anyMatch(r -> r.equals("ROLE_ADMIN"))) {
+            boolean isAdmin = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .anyMatch("ROLE_ADMIN"::equals);
+
+            if (isAdmin) {
                 return "pages/home";
             }
         }
