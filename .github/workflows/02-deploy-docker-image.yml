@@ -16,8 +16,8 @@ jobs:
     runs-on: ubuntu-24.04
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     outputs:
-      main: ${{ steps.filter.outputs.main }}
-      gradle: ${{ steps.filter.outputs.gradle }}
+      app: ${{ steps.filter.outputs.app }}
+      libs-versions: ${{ steps.filter.outputs.libs-versions }}
       dockerfile: ${{ steps.filter.outputs.dockerfile }}
       workflow-deploy: ${{ steps.filter.outputs.workflow-deploy }}
     steps:
@@ -31,20 +31,20 @@ jobs:
         id: filter
         with:
           filters: |
-            main:
-              - 'src/main/**'
-            gradle:
-              - 'build.gradle'
+            app:
+              - 'app/src/main/**'
+            libs-versions:
+              - 'gradle/libs.versions.toml'
             dockerfile:
               - 'Dockerfile'
             workflow-deploy:
-              - '.github/workflows/deploy.yml'
+              - '.github/workflows/02-deploy-docker-image.yml'
 
   build-docker-image:
     name: Build and deploy the docker image
     needs: changes
     runs-on: ubuntu-24.04
-    if: ${{ needs.changes.outputs.main == 'true' || needs.changes.outputs.gradle == 'true' || needs.changes.outputs.dockerfile == 'true' || needs.changes.outputs.workflow-deploy == 'true' }}
+    if: ${{ needs.changes.outputs.app == 'true' || needs.changes.outputs.libs-versions == 'true' || needs.changes.outputs.dockerfile == 'true' || needs.changes.outputs.workflow-deploy == 'true' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
