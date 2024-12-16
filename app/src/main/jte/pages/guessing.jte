@@ -25,11 +25,11 @@ content = @`
                 <div>
                 @if (isCorrect)
                     <label for="answer" class="block mb-2 text-sm font-medium text-gray-900">Answer</label>
-                    <input placeholder="translation" type="text" id="answer" name="answer" required
+                    <input placeholder="translation" type="text" id="answer" name="answer" autofocus required
                            class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
                 @else
                     <label for="answer" class="block mb-2 text-sm font-medium text-red-700">Answer</label>
-                    <input placeholder="${answer}" type="text" id="answer" name="answer" required
+                    <input placeholder="${answer}" type="text" id="answer" name="answer" autofocus required
                            class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-red-500 placeholder-red-700 text-red-900 bg-red-50 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm">
                     <p class="mt-2 text-sm text-red-600"><span class="font-medium">Oh, no!</span> Your answer is wrong.</p>
                 @endif
