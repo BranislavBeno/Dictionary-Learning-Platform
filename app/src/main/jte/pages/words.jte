@@ -17,7 +17,7 @@ content = @`
         <div class="flex flex-col items-end pb-6">
             <div>
                 <a href="/new-word?grade=${grade}&lesson=${lesson}&forUser=${forUser}"
-                   class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                   class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border border-transparent">
                     Add word...
                 </a>
             </div>
