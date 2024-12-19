@@ -5,6 +5,7 @@
 @param String username = ""
 @param CsrfHiddenInput csrfHiddenInput
 @param List<WordDto> words
+@param List<Integer> pageNumbers
 @param String forUser
 @param int grade
 @param int lesson
@@ -70,6 +71,28 @@ content = @`
                 @endfor
                 </tbody>
             </table>
+            @if(pageNumbers.size() > 1)
+                <div class="flex flex-col items-center pt-6">
+                    <nav aria-label="Page navigation">
+                        <ul class="inline-flex -space-x-px text-sm">
+                            @for(int pageNumber : pageNumbers)
+                                <li>
+                                    <a class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700
+                                    @if(pageNumber == pageNumbers.getFirst())
+                                        rounded-l-lg
+                                    @elseif(pageNumber == pageNumbers.getLast())
+                                        rounded-r-lg
+                                     @endif
+                                    "
+                                       href="/manage-words?grade=${grade}&lesson=${lesson}&forUser=${forUser}&page=${pageNumber - 1}">
+                                        ${pageNumber}
+                                    </a>
+                                </li>
+                            @endfor
+                        </ul>
+                    </nav>
+                </div>
+            @endif
         </div>
     </div>
 `)
