@@ -16,21 +16,21 @@ content = @`
             <div>
                 <label for="forUser" class="block mb-2 text-sm font-medium text-gray-900">For user</label>
                 <p id="forUser"
-                   class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm">
+                   class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm bg-gray-200">
                     ${forUser}
                 </p>
             </div>
             <div>
                 <label for="grade" class="block mb-2 text-sm font-medium text-gray-900">Grade</label>
                 <p id="grade"
-                   class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm">
+                   class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm bg-gray-200">
                     ${grade}
                 </p>
             </div>
             <div>
                 <label for="lesson" class="block mb-2 text-sm font-medium text-gray-900">Lesson</label>
                 <p id="lesson"
-                   class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm">
+                   class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm bg-gray-200">
                     ${lesson}
                 </p>
             </div>

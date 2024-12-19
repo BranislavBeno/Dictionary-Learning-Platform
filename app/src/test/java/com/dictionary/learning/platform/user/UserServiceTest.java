@@ -13,6 +13,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class UserServiceTest {
 
     @Mock
+    private User user;
+
+    @Mock
     private UserRepository repository;
 
     @InjectMocks
@@ -22,7 +25,6 @@ class UserServiceTest {
     void findByUsername() {
         // given
         String userName = "jane";
-        var user = Mockito.mock(User.class);
         Mockito.when(repository.findByUsername(userName)).thenReturn(Optional.of(user));
         // when
         service.findByUsername(userName);
@@ -39,5 +41,16 @@ class UserServiceTest {
         service.findAllUsers();
         // then
         Mockito.verify(repository).findAllUsers();
+    }
+
+    @Test
+    void testFindGradeByUsername() {
+        // given
+        String userName = "bob";
+        Mockito.when(repository.findByUsername(userName)).thenReturn(Optional.of(user));
+        // when
+        service.findGradeByUsername(userName);
+        // then
+        Mockito.verify(repository).findByUsername(userName);
     }
 }

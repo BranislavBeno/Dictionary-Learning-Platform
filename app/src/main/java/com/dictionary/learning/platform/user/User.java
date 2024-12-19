@@ -24,6 +24,8 @@ public class User {
 
     private String role;
 
+    private int grade;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Word> words = new ArrayList<>();
 
@@ -57,6 +59,14 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
 
     public List<Word> getWords() {

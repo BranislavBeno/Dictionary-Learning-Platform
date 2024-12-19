@@ -18,4 +18,8 @@ public class UserService {
     public Set<UserDto> findAllUsers() {
         return repository.findAllUsers();
     }
+
+    public int findGradeByUsername(String username) {
+        return findByUsername(username).getGrade();
+    }
 }

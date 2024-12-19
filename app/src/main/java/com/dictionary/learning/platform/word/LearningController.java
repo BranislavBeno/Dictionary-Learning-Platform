@@ -1,6 +1,7 @@
 package com.dictionary.learning.platform.word;
 
 import com.dictionary.learning.platform.ui.ControllerUtils;
+import com.dictionary.learning.platform.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 import java.util.List;
@@ -15,17 +16,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class LearningController {
 
     private final WordService wordService;
+    private final UserService userService;
     private Iterator<WordToCheck> iterator;
     private WordToCheck wordToCheck;
 
-    public LearningController(WordService wordService) {
+    public LearningController(WordService wordService, UserService userService) {
         this.wordService = wordService;
+        this.userService = userService;
     }
 
     @GetMapping("/learning")
     public String learning(Authentication authentication, HttpServletRequest request, Model model) {
-        ControllerUtils.addUserDetailsToModel(authentication, model);
         ControllerUtils.addCsrfTokenToModel(request, model);
+        UserDetails details = ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        int grade = 1;
+        if (details != null) {
+            grade = userService.findGradeByUsername(details.getUsername());
+        }
+        model.addAttribute("grade", grade);
 
         return "pages/learning";
     }
@@ -38,12 +47,12 @@ public class LearningController {
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            String username = userDetails.getUsername();
-            ControllerUtils.addCsrfTokenToModel(request, model);
-            model.addAttribute("username", username);
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        UserDetails details = ControllerUtils.addUserDetailsToModel(authentication, model);
 
-            List<WordToCheck> wordsToCheck = convertWordsToQuestionsAndAnswers(grade, lesson, username, language);
+        if (details != null) {
+            List<WordToCheck> wordsToCheck =
+                    convertWordsToQuestionsAndAnswers(grade, lesson, details.getUsername(), language);
             iterator = wordsToCheck.iterator();
             if (iterator.hasNext()) {
                 setModelForGuessing(model);
@@ -56,8 +65,8 @@ public class LearningController {
 
     @PostMapping("/check-word")
     public String checkWord(String answer, Authentication authentication, HttpServletRequest request, Model model) {
-        ControllerUtils.addUserDetailsToModel(authentication, model);
         ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
         model.addAttribute("question", wordToCheck.question());
         model.addAttribute("answer", answer);
 
@@ -71,8 +80,8 @@ public class LearningController {
 
     @PostMapping("/next-word")
     public String nextWord(Authentication authentication, HttpServletRequest request, Model model) {
-        ControllerUtils.addUserDetailsToModel(authentication, model);
         ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
 
         if (iterator.hasNext()) {
             setModelForGuessing(model);

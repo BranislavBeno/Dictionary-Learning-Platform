@@ -1,5 +1,6 @@
 package com.dictionary.learning.platform.ui;
 
+import com.dictionary.learning.platform.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
+
+    private final UserService userService;
+
+    public LoginController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/login")
     public String login(Model model, String error) {
@@ -25,25 +32,27 @@ public class LoginController {
      * Handles the home page request.
      *
      * @param authentication the authentication object containing the user's details
-     * @param request the HTTP servlet request
-     * @param model the model to add attributes to
+     * @param request        the HTTP servlet request
+     * @param model          the model to add attributes to
      * @return the name of the view to be rendered
      */
     @GetMapping("/")
     public String home(Authentication authentication, HttpServletRequest request, Model model) {
         ControllerUtils.addCsrfTokenToModel(request, model);
+        UserDetails details = ControllerUtils.addUserDetailsToModel(authentication, model);
 
-        if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            model.addAttribute("username", userDetails.getUsername());
-
-            boolean isAdmin = userDetails.getAuthorities().stream()
+        int grade = 1;
+        if (details != null) {
+            boolean isAdmin = details.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .anyMatch("ROLE_ADMIN"::equals);
-
             if (isAdmin) {
                 return "pages/home";
             }
+            grade = userService.findGradeByUsername(details.getUsername());
         }
+
+        model.addAttribute("grade", grade);
 
         return "pages/learning";
     }

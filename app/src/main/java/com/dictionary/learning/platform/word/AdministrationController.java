@@ -30,15 +30,27 @@ public class AdministrationController {
     }
 
     @GetMapping("/administration")
-    public String administration(Authentication authentication, HttpServletRequest request, Model model) {
-        ControllerUtils.addUserDetailsToModel(authentication, model);
+    public String userAdministration(Authentication authentication, HttpServletRequest request, Model model) {
         ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
 
         List<String> users =
                 userService.findAllUsers().stream().map(UserDto::username).toList();
         model.addAttribute("users", users);
 
-        return "pages/administration";
+        return "pages/user-administration";
+    }
+
+    @PostMapping("/set-up-user")
+    public String setUpUser(String forUser, Authentication authentication, HttpServletRequest request, Model model) {
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        int grade = userService.findGradeByUsername(forUser);
+        model.addAttribute("grade", grade);
+        model.addAttribute("forUser", forUser);
+
+        return "pages/lesson-administration";
     }
 
     @PostMapping("/set-up-lesson")
@@ -64,8 +76,8 @@ public class AdministrationController {
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
-        ControllerUtils.addUserDetailsToModel(authentication, model);
         ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
 
         Page<WordDto> words = wordService.findAllByUserNameByGradeByLessonPaginated(page, forUser, grade, lesson);
         PageData pageData = providePageData(words);
@@ -86,8 +98,8 @@ public class AdministrationController {
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
-        ControllerUtils.addUserDetailsToModel(authentication, model);
         ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
         model.addAttribute("forUser", forUser);
         model.addAttribute("grade", grade);
         model.addAttribute("lesson", lesson);

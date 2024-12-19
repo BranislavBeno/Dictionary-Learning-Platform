@@ -5,6 +5,7 @@ CREATE TABLE users (
    username VARCHAR(255),
    password VARCHAR(255),
    role     VARCHAR(255),
+   grade    INTEGER NOT NULL,
    CONSTRAINT pk_user PRIMARY KEY (id)
 );
 

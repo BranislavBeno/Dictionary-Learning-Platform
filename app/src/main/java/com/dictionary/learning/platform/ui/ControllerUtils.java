@@ -1,6 +1,7 @@
 package com.dictionary.learning.platform.ui;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -10,10 +11,16 @@ public class ControllerUtils {
 
     private ControllerUtils() {}
 
-    public static void addUserDetailsToModel(Authentication authentication, Model model) {
+    @Nullable
+    public static UserDetails addUserDetailsToModel(Authentication authentication, Model model) {
         if (authentication.getPrincipal() instanceof UserDetails userDetails) {
-            model.addAttribute("username", userDetails.getUsername());
+            String username = userDetails.getUsername();
+            model.addAttribute("username", username);
+
+            return userDetails;
         }
+
+        return null;
     }
 
     public static void addCsrfTokenToModel(HttpServletRequest request, Model model) {
