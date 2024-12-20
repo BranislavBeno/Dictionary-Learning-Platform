@@ -93,7 +93,7 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: DigitalOcean App Platform deployment
-        uses: digitalocean/app_action@v2.0.4
+        uses: digitalocean/app_action@v2.0.7
         with:
           app_name: beo-1975-dictionary-learning-platform
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
