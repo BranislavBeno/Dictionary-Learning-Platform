@@ -1,6 +1,6 @@
 package com.dictionary.learning.platform.word;
 
-import com.dictionary.learning.platform.user.User;
+import com.dictionary.learning.platform.lesson.Lesson;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -20,12 +20,8 @@ public class Word {
     @NotBlank
     private String sk;
 
-    private int lesson;
-
-    private int grade;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Lesson lesson;
 
     public Long getId() {
         return id;
@@ -51,28 +47,12 @@ public class Word {
         this.sk = sk;
     }
 
-    public int getLesson() {
+    public Lesson getLesson() {
         return lesson;
     }
 
-    public void setLesson(int lesson) {
+    public void setLesson(Lesson lesson) {
         this.lesson = lesson;
-    }
-
-    public int getGrade() {
-        return grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override

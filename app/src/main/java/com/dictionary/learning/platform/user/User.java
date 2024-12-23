@@ -1,6 +1,6 @@
 package com.dictionary.learning.platform.user;
 
-import com.dictionary.learning.platform.word.Word;
+import com.dictionary.learning.platform.lesson.Lesson;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class User {
     private int grade;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Word> words = new ArrayList<>();
+    private List<Lesson> lessons = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -69,21 +69,21 @@ public class User {
         this.grade = grade;
     }
 
-    public List<Word> getWords() {
-        return words;
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
-    public void setWords(List<Word> words) {
-        this.words = words;
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
-    public void addWord(Word word) {
-        words.add(word);
-        word.setUser(this);
+    public void addLesson(Lesson lesson) {
+        lessons.add(lesson);
+        lesson.setUser(this);
     }
 
-    public void removeWord(Word word) {
-        words.remove(word);
-        word.setUser(null);
+    public void removeLesson(Lesson lesson) {
+        lessons.remove(lesson);
+        lesson.setUser(null);
     }
 }
