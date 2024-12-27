@@ -1,7 +1,8 @@
 package com.dictionary.learning.platform.word;
 
+import com.dictionary.learning.platform.lesson.Lesson;
+import com.dictionary.learning.platform.lesson.LessonService;
 import com.dictionary.learning.platform.ui.ControllerUtils;
-import com.dictionary.learning.platform.user.User;
 import com.dictionary.learning.platform.user.UserDto;
 import com.dictionary.learning.platform.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdministrationController {
 
     private final WordService wordService;
+    private final LessonService lessonService;
     private final UserService userService;
 
-    public AdministrationController(WordService wordService, UserService userService) {
+    public AdministrationController(WordService wordService, LessonService lessonService, UserService userService) {
         this.wordService = wordService;
+        this.lessonService = lessonService;
         this.userService = userService;
     }
 
@@ -79,7 +82,8 @@ public class AdministrationController {
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
 
-        Page<WordDto> words = wordService.findAllByUserNameByGradeByLessonPaginated(page, forUser, grade, lesson);
+        long lessonId = 1;
+        Page<WordDto> words = wordService.findAllLessonIdPaginated(page, lessonId);
         PageData pageData = providePageData(words);
         model.addAttribute("words", pageData.content());
         model.addAttribute("pageNumbers", pageData.pageNumbers());
@@ -117,8 +121,9 @@ public class AdministrationController {
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
-        Word word = createWord(grade, lesson, english, slovak);
-        addWord(forUser, word);
+        Word word = createWord(english, slovak);
+        long lessonId = 1;
+        addWord(lessonId, word);
 
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
@@ -126,18 +131,16 @@ public class AdministrationController {
         return "redirect:/manage-words?grade=%d&lesson=%d&forUser=%s".formatted(grade, lesson, forUser);
     }
 
-    private void addWord(String forUser, Word word) {
-        User user = userService.findByUsername(forUser);
-        word.setUser(user);
+    private void addWord(long lessonId, Word word) {
+        Lesson lesson = lessonService.findById(lessonId);
+        word.setLesson(lesson);
         wordService.saveWord(word);
     }
 
-    private static Word createWord(int grade, int lesson, String english, String slovak) {
+    private static Word createWord(String english, String slovak) {
         Word word = new Word();
         word.setEn(english);
         word.setSk(slovak);
-        word.setGrade(grade);
-        word.setLesson(lesson);
 
         return word;
     }

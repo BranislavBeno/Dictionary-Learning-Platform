@@ -26,23 +26,14 @@ class WordRepositoryTest extends BaseTestRepository implements WithAssertions {
 
     @ParameterizedTest
     @CsvSource({"0,3", "1,1"})
-    void testFindAllByUserNameByGradeByLessonPaginated(int pageNumber, int expected) {
-        Page<WordDto> words =
-                repository.findAllByUserNameByGradeByLessonPaginated(PageRequest.of(pageNumber, 3), "jane", 1, 1);
+    void testFindAllByLessonIdPaginated(int pageNumber, int expected) {
+        Page<WordDto> words = repository.findAllByLessonIdPaginated(PageRequest.of(pageNumber, 3), 1);
         assertThat(words).hasSize(expected);
     }
 
     @Test
-    void testFindAllByUserIdByGradeByLesson() {
-        List<WordDto> words = repository.findAllByUserNameByGradeByLesson("jane", 2, 2);
-
+    void testFindAllByLessonId() {
+        List<WordDto> words = repository.findAllByLessonId(3);
         assertThat(words).hasSize(1);
-    }
-
-    @Test
-    void testFindAllByUserIdByGradeBetweenLessons() {
-        List<WordDto> words = repository.findAllByUserIdByGradeBetweenLessons(1, 2, 1, 2);
-
-        assertThat(words).hasSize(3);
     }
 }

@@ -10,25 +10,17 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     @Query(
             """
-         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.lesson, w.grade)
+         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk)
          FROM Word w
-         LEFT JOIN w.user u
-         WHERE u.username = :name AND w.grade = :grade AND w.lesson = :lesson""")
-    Page<WordDto> findAllByUserNameByGradeByLessonPaginated(Pageable pageable, String name, int grade, int lesson);
+         LEFT JOIN w.lesson l
+         WHERE l.id = :lessonId""")
+    Page<WordDto> findAllByLessonIdPaginated(Pageable pageable, long lessonId);
 
     @Query(
             """
-         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.lesson, w.grade)
+         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk)
          FROM Word w
-         LEFT JOIN w.user u
-         WHERE u.username = :name AND w.grade = :grade AND w.lesson = :lesson""")
-    List<WordDto> findAllByUserNameByGradeByLesson(String name, int grade, int lesson);
-
-    @Query(
-            """
-         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.lesson, w.grade)
-         FROM Word w
-         LEFT JOIN w.user u
-         WHERE u.id = :id AND w.grade = :grade AND w.lesson BETWEEN :firstLesson AND :lastLesson""")
-    List<WordDto> findAllByUserIdByGradeBetweenLessons(long id, int grade, int firstLesson, int lastLesson);
+         LEFT JOIN w.lesson l
+         WHERE l.id = :lessonId""")
+    List<WordDto> findAllByLessonId(long lessonId);
 }

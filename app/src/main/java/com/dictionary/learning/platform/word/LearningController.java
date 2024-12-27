@@ -100,7 +100,7 @@ public class LearningController {
 
     private List<WordToCheck> convertWordsToQuestionsAndAnswers(
             int grade, int lesson, String username, String language) {
-        List<WordDto> words = wordService.findAllByUserNameByGradeByLesson(username, grade, lesson);
+        List<WordDto> words = wordService.findAllByLessonId(lesson);
 
         return words.stream().map(w -> setQuestionsAndAnswers(language, w)).toList();
     }

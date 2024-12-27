@@ -1,5 +1,6 @@
 package com.dictionary.learning.platform.word;
 
+import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.WithAssertions;
@@ -13,10 +14,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 @ExtendWith(MockitoExtension.class)
 class WordServiceTest implements WithAssertions {
+
+    private static final int PAGE_SIZE = 5;
 
     @Mock
     private WordRepository repository;
@@ -25,66 +27,43 @@ class WordServiceTest implements WithAssertions {
     private Page<WordDto> wordPage;
 
     @Mock
-    private WordDto wordDto;
-
-    @Mock
     private Word word;
 
     private WordService service;
 
     @BeforeEach
     void setUp() {
-        service = new WordService(repository, 5);
+        service = new WordService(repository, PAGE_SIZE);
     }
 
     @Test
-    void testFindAllByUserNameByGradeByLessonPaginated() {
+    void testFindAllByLessonIdPaginated() {
         // given
         int page = 1;
-        String userName = "jane";
-        int grade = 1;
-        int lesson = 1;
-        Mockito.when(repository.findAllByUserNameByGradeByLessonPaginated(
-                        getPageRequest(page), userName, grade, lesson))
+        long lessonId = 1;
+        Mockito.when(repository.findAllByLessonIdPaginated(DictionaryUtils.getPageRequest(page, PAGE_SIZE), lessonId))
                 .thenReturn(wordPage);
         // when
-        service.findAllByUserNameByGradeByLessonPaginated(page, userName, grade, lesson);
+        service.findAllLessonIdPaginated(page, lessonId);
         // then
         Mockito.verify(repository)
-                .findAllByUserNameByGradeByLessonPaginated(getPageRequest(page), userName, grade, page);
+                .findAllByLessonIdPaginated(DictionaryUtils.getPageRequest(page, PAGE_SIZE), lessonId);
     }
 
     @Test
-    void testFindAllByUserNameByGradeByLesson() {
+    void testFindAllByLessonId() {
         // given
-        String userName = "bob";
-        int grade = 1;
-        int lesson = 1;
-        Mockito.when(repository.findAllByUserNameByGradeByLesson(userName, grade, lesson))
-                .thenReturn(List.of(wordDto));
+        int lessonId = 1;
+        WordDto wordDto = Mockito.mock(WordDto.class);
+        Mockito.when(repository.findAllByLessonId(lessonId)).thenReturn(List.of(wordDto));
         // when
-        service.findAllByUserNameByGradeByLesson(userName, grade, lesson);
+        service.findAllByLessonId(lessonId);
         // then
-        Mockito.verify(repository).findAllByUserNameByGradeByLesson(userName, grade, lesson);
+        Mockito.verify(repository).findAllByLessonId(lessonId);
     }
 
     @Test
-    void testFindAllByUserIdByGradeBetweenLessons() {
-        // given
-        long userId = 1;
-        int grade = 1;
-        int firstLesson = 1;
-        int lastLesson = 2;
-        Mockito.when(repository.findAllByUserIdByGradeBetweenLessons(userId, grade, firstLesson, lastLesson))
-                .thenReturn(List.of(wordDto));
-        // when
-        service.findAllByUserIdByGradeBetweenLessons(userId, grade, firstLesson, lastLesson);
-        // then
-        Mockito.verify(repository).findAllByUserIdByGradeBetweenLessons(userId, grade, firstLesson, lastLesson);
-    }
-
-    @Test
-    void saveWord() {
+    void testSaveWord() {
         // given
         Mockito.when(repository.save(ArgumentMatchers.any(Word.class))).thenReturn(word);
         // when
@@ -94,7 +73,7 @@ class WordServiceTest implements WithAssertions {
     }
 
     @Test
-    void wordExists() {
+    void testWordExists() {
         // given
         long id = 1;
         Mockito.when(repository.existsById(id)).thenReturn(true);
@@ -106,7 +85,7 @@ class WordServiceTest implements WithAssertions {
     }
 
     @Test
-    void findWord() {
+    void testFindWord() {
         // given
         long id = 1;
         Mockito.when(repository.findById(id)).thenReturn(Optional.of(word));
@@ -129,13 +108,9 @@ class WordServiceTest implements WithAssertions {
 
     @ParameterizedTest
     @CsvSource({"Matka,false,", "matka,false,", "mama,false,Matka", "Mother,true,", "mother,true,", "mom,true,Mother"})
-    void compare(String translation, boolean toEn, String expected) {
-        var checked = new WordDto(1L, "Mother", "Matka", 1, 1);
+    void testCompare(String translation, boolean toEn, String expected) {
+        var checked = new WordDto(1L, "Mother", "Matka");
         String result = service.compareTranslation(checked, translation, toEn);
         assertThat(result).isEqualTo(expected);
-    }
-
-    private PageRequest getPageRequest(int page) {
-        return PageRequest.of(page, 5);
     }
 }

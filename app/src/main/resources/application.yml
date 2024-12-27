@@ -37,7 +37,7 @@ logging:
       springframework:
         security: ERROR #change to DEBUG or INFO for more information about spring security
 
-word:
+dictionary:
   service:
     page:
       size: 7

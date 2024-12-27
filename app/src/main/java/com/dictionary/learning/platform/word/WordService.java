@@ -1,9 +1,9 @@
 package com.dictionary.learning.platform.word;
 
+import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.List;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 public final class WordService {
 
@@ -15,16 +15,12 @@ public final class WordService {
         this.pageSize = pageSize;
     }
 
-    Page<WordDto> findAllByUserNameByGradeByLessonPaginated(int page, String userName, int grade, int lesson) {
-        return repository.findAllByUserNameByGradeByLessonPaginated(getPageRequest(page), userName, grade, lesson);
+    Page<WordDto> findAllLessonIdPaginated(int page, long lessonId) {
+        return repository.findAllByLessonIdPaginated(DictionaryUtils.getPageRequest(page, pageSize), lessonId);
     }
 
-    List<WordDto> findAllByUserNameByGradeByLesson(String userName, int grade, int lesson) {
-        return repository.findAllByUserNameByGradeByLesson(userName, grade, lesson);
-    }
-
-    List<WordDto> findAllByUserIdByGradeBetweenLessons(long userId, int grade, int firstLesson, int lastLesson) {
-        return repository.findAllByUserIdByGradeBetweenLessons(userId, grade, firstLesson, lastLesson);
+    List<WordDto> findAllByLessonId(long lessonId) {
+        return repository.findAllByLessonId(lessonId);
     }
 
     Word saveWord(Word word) {
@@ -48,9 +44,5 @@ public final class WordService {
         String original = toEn ? word.en() : word.sk();
 
         return original.equalsIgnoreCase(translation) ? null : original;
-    }
-
-    private PageRequest getPageRequest(int page) {
-        return PageRequest.of(page, pageSize);
     }
 }
