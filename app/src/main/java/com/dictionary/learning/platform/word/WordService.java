@@ -15,16 +15,16 @@ public final class WordService {
         this.pageSize = pageSize;
     }
 
-    Page<WordDto> findAllLessonIdPaginated(int page, long lessonId) {
+    public Page<WordDto> findAllLessonIdPaginated(int page, long lessonId) {
         return repository.findAllByLessonIdPaginated(DictionaryUtils.getPageRequest(page, pageSize), lessonId);
     }
 
-    List<WordDto> findAllByLessonId(long lessonId) {
+    public List<WordDto> findAllByLessonId(long lessonId) {
         return repository.findAllByLessonId(lessonId);
     }
 
-    Word saveWord(Word word) {
-        return repository.save(word);
+    public void saveWord(Word word) {
+        repository.save(word);
     }
 
     boolean wordExists(long id) {

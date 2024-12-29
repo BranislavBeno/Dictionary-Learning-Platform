@@ -1,7 +1,9 @@
-package com.dictionary.learning.platform.word;
+package com.dictionary.learning.platform.ui;
 
-import com.dictionary.learning.platform.ui.ControllerUtils;
 import com.dictionary.learning.platform.user.UserService;
+import com.dictionary.learning.platform.word.WordDto;
+import com.dictionary.learning.platform.word.WordService;
+import com.dictionary.learning.platform.word.WordToCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 import java.util.List;
