@@ -16,9 +16,11 @@ public class Lesson {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    private int number;
+    private String title;
 
     private int grade;
+
+    private Double successRate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -34,12 +36,12 @@ public class Lesson {
         this.id = id;
     }
 
-    public int getNumber() {
-        return number;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getGrade() {
@@ -48,6 +50,14 @@ public class Lesson {
 
     public void setGrade(int grade) {
         this.grade = grade;
+    }
+
+    public Double getSuccessRate() {
+        return successRate;
+    }
+
+    public void setSuccessRate(Double successRate) {
+        this.successRate = successRate;
     }
 
     public User getUser() {

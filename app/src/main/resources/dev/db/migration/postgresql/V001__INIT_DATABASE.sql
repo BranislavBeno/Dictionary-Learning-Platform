@@ -14,9 +14,10 @@ CREATE TABLE users (
 CREATE SEQUENCE IF NOT EXISTS lesson_seq START WITH 10 INCREMENT BY 1;
 
 CREATE TABLE lessons (
-                         id       BIGINT  NOT NULL,
-                         number  INTEGER NOT NULL,
-                         grade   INTEGER NOT NULL,
+                         id           BIGINT  NOT NULL,
+                         title        VARCHAR(255),
+                         grade        INTEGER NOT NULL,
+                         success_rate DOUBLE PRECISION,
                          user_id BIGINT,
                          CONSTRAINT pk_lessons PRIMARY KEY (id)
 );
@@ -27,10 +28,11 @@ ALTER TABLE lessons ADD CONSTRAINT FK_LESSONS_ON_USER FOREIGN KEY (user_id) REFE
 CREATE SEQUENCE IF NOT EXISTS word_seq START WITH 10 INCREMENT BY 1;
 
 CREATE TABLE words (
-                       id         BIGINT NOT NULL,
-                       en        VARCHAR(255),
-                       sk        VARCHAR(255),
-                       lesson_id BIGINT,
+                       id           BIGINT NOT NULL,
+                       en           VARCHAR(255),
+                       sk           VARCHAR(255),
+                       success_rate DOUBLE PRECISION,
+                       lesson_id    BIGINT,
                        CONSTRAINT pk_words PRIMARY KEY (id)
 );
 

@@ -109,7 +109,7 @@ class WordServiceTest implements WithAssertions {
     @ParameterizedTest
     @CsvSource({"Matka,false,", "matka,false,", "mama,false,Matka", "Mother,true,", "mother,true,", "mom,true,Mother"})
     void testCompare(String translation, boolean toEn, String expected) {
-        var checked = new WordDto(1L, "Mother", "Matka");
+        var checked = new WordDto(1L, "Mother", "Matka", 0.0);
         String result = service.compareTranslation(checked, translation, toEn);
         assertThat(result).isEqualTo(expected);
     }

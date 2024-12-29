@@ -27,14 +27,14 @@ class LessonRepositoryTest extends BaseTestRepository implements WithAssertions 
     @Test
     void testFindById() {
         Optional<Lesson> lesson = repository.findById(1L);
-        assertThat(lesson).isNotNull().hasValueSatisfying(l -> assertThat(l.getNumber())
-                .isEqualTo(1));
+        assertThat(lesson).isNotNull().hasValueSatisfying(l -> assertThat(l.getTitle())
+                .isEqualTo("Family"));
     }
 
     @Test
     void testFindByLessonId() {
         LessonDto lesson = repository.findByLessonId(4L);
-        assertThat(lesson.number()).isEqualTo(1);
+        assertThat(lesson.title()).isEqualTo("Family");
     }
 
     @ParameterizedTest

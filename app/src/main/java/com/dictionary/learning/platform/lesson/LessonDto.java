@@ -1,3 +1,3 @@
 package com.dictionary.learning.platform.lesson;
 
-public record LessonDto(long id, int number) {}
+public record LessonDto(long id, String title, int grade, Double successRate) {}

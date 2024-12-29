@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 class DictionaryUtilsTest implements WithAssertions {
 
     @Test
-    void testGetPageRequest(){
+    void testGetPageRequest() {
         PageRequest pageRequest = DictionaryUtils.getPageRequest(1, 10);
         assertThat(pageRequest).isNotNull().satisfies(r -> {
             assertThat(r).isInstanceOf(PageRequest.class);

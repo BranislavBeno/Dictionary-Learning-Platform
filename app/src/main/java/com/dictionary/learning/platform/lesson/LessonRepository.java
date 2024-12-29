@@ -9,14 +9,14 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
     @Query(
             """
-         SELECT new com.dictionary.learning.platform.lesson.LessonDto(l.id, l.number)
+         SELECT new com.dictionary.learning.platform.lesson.LessonDto(l.id, l.title, l.grade, l.successRate)
          FROM Lesson l
          WHERE l.id = :lessonId""")
     LessonDto findByLessonId(Long lessonId);
 
     @Query(
             """
-         SELECT new com.dictionary.learning.platform.lesson.LessonDto(l.id, l.number)
+         SELECT new com.dictionary.learning.platform.lesson.LessonDto(l.id, l.title, l.grade, l.successRate)
          FROM Lesson l
          LEFT JOIN l.user u
          WHERE u.username = :name""")

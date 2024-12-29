@@ -20,6 +20,8 @@ public class Word {
     @NotBlank
     private String sk;
 
+    private Double successRate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Lesson lesson;
 
@@ -45,6 +47,14 @@ public class Word {
 
     public void setSk(String sk) {
         this.sk = sk;
+    }
+
+    public Double getSuccessRate() {
+        return successRate;
+    }
+
+    public void setSuccessRate(Double successRate) {
+        this.successRate = successRate;
     }
 
     public Lesson getLesson() {
