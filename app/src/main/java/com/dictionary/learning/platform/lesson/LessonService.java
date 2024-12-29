@@ -22,7 +22,7 @@ public class LessonService {
         return repository.findByLessonId(lessonId);
     }
 
-    Page<LessonDto> findAllByUserNamePaginated(int page, String userName) {
+    public Page<LessonDto> findAllByUserNamePaginated(int page, String userName) {
         return repository.findAllByUserNamePaginated(DictionaryUtils.getPageRequest(page, pageSize), userName);
     }
 

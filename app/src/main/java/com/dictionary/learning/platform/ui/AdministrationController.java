@@ -4,13 +4,12 @@ import com.dictionary.learning.platform.lesson.Lesson;
 import com.dictionary.learning.platform.lesson.LessonService;
 import com.dictionary.learning.platform.user.UserDto;
 import com.dictionary.learning.platform.user.UserService;
+import com.dictionary.learning.platform.utils.DictionaryUtils;
 import com.dictionary.learning.platform.word.Word;
 import com.dictionary.learning.platform.word.WordDto;
 import com.dictionary.learning.platform.word.WordService;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -86,7 +85,7 @@ public class AdministrationController {
 
         long lessonId = 1;
         Page<WordDto> words = wordService.findAllLessonIdPaginated(page, lessonId);
-        PageData pageData = providePageData(words);
+        DictionaryUtils.PageData<WordDto> pageData = DictionaryUtils.providePageData(words);
         model.addAttribute("words", pageData.content());
         model.addAttribute("pageNumbers", pageData.pageNumbers());
         model.addAttribute("forUser", forUser);
@@ -146,20 +145,4 @@ public class AdministrationController {
 
         return word;
     }
-
-    private List<Integer> providePageNumbers(int totalPages) {
-        if (totalPages > 0) {
-            return IntStream.rangeClosed(1, totalPages).boxed().toList();
-        }
-
-        return Collections.emptyList();
-    }
-
-    private PageData providePageData(Page<WordDto> page) {
-        List<Integer> pageNumbers = providePageNumbers(page.getTotalPages());
-
-        return new PageData(page.getContent(), pageNumbers);
-    }
-
-    record PageData(List<WordDto> content, List<Integer> pageNumbers) {}
 }

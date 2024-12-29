@@ -41,19 +41,18 @@ public class LoginController {
         ControllerUtils.addCsrfTokenToModel(request, model);
         UserDetails details = ControllerUtils.addUserDetailsToModel(authentication, model);
 
-        int grade = 1;
         if (details != null) {
             boolean isAdmin = details.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .anyMatch("ROLE_ADMIN"::equals);
             if (isAdmin) {
+                int grade = userService.findGradeByUsername(details.getUsername());
+                model.addAttribute("grade", grade);
+
                 return "pages/home";
             }
-            grade = userService.findGradeByUsername(details.getUsername());
         }
 
-        model.addAttribute("grade", grade);
-
-        return "pages/learning";
+        return "redirect:/learning";
     }
 }

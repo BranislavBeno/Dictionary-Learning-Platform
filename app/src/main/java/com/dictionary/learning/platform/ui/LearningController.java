@@ -1,51 +1,39 @@
 package com.dictionary.learning.platform.ui;
 
-import com.dictionary.learning.platform.user.UserService;
+import com.dictionary.learning.platform.lesson.LessonDto;
+import com.dictionary.learning.platform.lesson.LessonService;
+import com.dictionary.learning.platform.utils.DictionaryUtils;
 import com.dictionary.learning.platform.word.WordDto;
 import com.dictionary.learning.platform.word.WordService;
 import com.dictionary.learning.platform.word.WordToCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LearningController {
 
+    private final LessonService lessonService;
     private final WordService wordService;
-    private final UserService userService;
     private Iterator<WordToCheck> iterator;
     private WordToCheck wordToCheck;
 
-    public LearningController(WordService wordService, UserService userService) {
+    public LearningController(LessonService lessonService, WordService wordService) {
+        this.lessonService = lessonService;
         this.wordService = wordService;
-        this.userService = userService;
     }
 
     @GetMapping("/learning")
-    public String learning(Authentication authentication, HttpServletRequest request, Model model) {
-        ControllerUtils.addCsrfTokenToModel(request, model);
-        UserDetails details = ControllerUtils.addUserDetailsToModel(authentication, model);
-
-        int grade = 1;
-        if (details != null) {
-            grade = userService.findGradeByUsername(details.getUsername());
-        }
-        model.addAttribute("grade", grade);
-
-        return "pages/learning";
-    }
-
-    @PostMapping("/choose-lesson")
-    public String chooseLesson(
-            int grade,
-            int lesson,
-            String language,
+    public String learning(
+            @RequestParam(defaultValue = "0") int page,
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
@@ -53,8 +41,35 @@ public class LearningController {
         UserDetails details = ControllerUtils.addUserDetailsToModel(authentication, model);
 
         if (details != null) {
-            List<WordToCheck> wordsToCheck =
-                    convertWordsToQuestionsAndAnswers(grade, lesson, details.getUsername(), language);
+            Page<LessonDto> lessons = lessonService.findAllByUserNamePaginated(page, details.getUsername());
+            DictionaryUtils.PageData<LessonDto> pageData = DictionaryUtils.providePageData(lessons);
+            model.addAttribute("lessons", pageData.content());
+            model.addAttribute("pageNumbers", pageData.pageNumbers());
+
+            return "pages/learning";
+        }
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/choose-lesson")
+    public String chooseLesson(
+            @RequestParam long lessonId, Authentication authentication, HttpServletRequest request, Model model) {
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+        model.addAttribute("lessonId", lessonId);
+
+        return "pages/language-selection";
+    }
+
+    @PostMapping("/apply-lesson")
+    public String applyLesson(
+            long lessonId, String language, Authentication authentication, HttpServletRequest request, Model model) {
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        UserDetails details = ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        if (details != null) {
+            List<WordToCheck> wordsToCheck = convertWordsToQuestionsAndAnswers(lessonId, language);
             iterator = wordsToCheck.iterator();
             if (iterator.hasNext()) {
                 setModelForGuessing(model);
@@ -100,9 +115,8 @@ public class LearningController {
         model.addAttribute("isCorrect", true);
     }
 
-    private List<WordToCheck> convertWordsToQuestionsAndAnswers(
-            int grade, int lesson, String username, String language) {
-        List<WordDto> words = wordService.findAllByLessonId(lesson);
+    private List<WordToCheck> convertWordsToQuestionsAndAnswers(long id, String language) {
+        List<WordDto> words = wordService.findAllByLessonId(id);
 
         return words.stream().map(w -> setQuestionsAndAnswers(language, w)).toList();
     }
