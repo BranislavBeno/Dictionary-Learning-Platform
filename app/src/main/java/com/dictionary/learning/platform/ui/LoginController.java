@@ -53,6 +53,6 @@ public class LoginController {
             }
         }
 
-        return "redirect:/learning";
+        return "redirect:/lesson-selection";
     }
 }

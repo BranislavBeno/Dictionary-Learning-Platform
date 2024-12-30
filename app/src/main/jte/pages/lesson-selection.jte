@@ -34,14 +34,21 @@ content = @`
                 <tbody>
                 @for(LessonDto lesson: lessons)
                     <tr class="bg-white border-b">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-gray-900">
                             ${lesson.title()}
                         </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-gray-900">
                             ${lesson.grade()}
                         </th>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            ${lesson.successRate()}
+                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap
+                        @if(lesson.successRate() <= 0.5)
+                            text-red-700
+                        @elseif(lesson.successRate() <= 0.9)
+                            text-yellow-800
+                        @else
+                            text-green-700
+                        @endif
+                        ">${lesson.successRate() * 100}%
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             <a href="/choose-lesson?lessonId=${lesson.id()}"
@@ -66,7 +73,7 @@ content = @`
                                     rounded-r-lg
                                  @endif
                                 "
-                                       href="/learning?page=${pageNumber - 1}">
+                                       href="/lesson-selection?page=${pageNumber - 1}">
                                         ${pageNumber}
                                     </a>
                                 </li>

@@ -31,8 +31,8 @@ public class LearningController {
         this.wordService = wordService;
     }
 
-    @GetMapping("/learning")
-    public String learning(
+    @GetMapping("/lesson-selection")
+    public String selectLesson(
             @RequestParam(defaultValue = "0") int page,
             Authentication authentication,
             HttpServletRequest request,
@@ -46,7 +46,7 @@ public class LearningController {
             model.addAttribute("lessons", pageData.content());
             model.addAttribute("pageNumbers", pageData.pageNumbers());
 
-            return "pages/learning";
+            return "pages/lesson-selection";
         }
 
         return "redirect:/";
@@ -121,7 +121,7 @@ public class LearningController {
         return words.stream().map(w -> setQuestionsAndAnswers(language, w)).toList();
     }
 
-    private static WordToCheck setQuestionsAndAnswers(String language, WordDto w) {
+    private WordToCheck setQuestionsAndAnswers(String language, WordDto w) {
         return switch (language) {
             case "EN" -> new WordToCheck(w.sk(), w.en());
             case "SK" -> new WordToCheck(w.en(), w.sk());
