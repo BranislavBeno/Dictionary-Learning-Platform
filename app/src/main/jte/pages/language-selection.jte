@@ -2,7 +2,6 @@
 
 @param String username = ""
 @param CsrfHiddenInput csrfHiddenInput
-@param long lessonId
 
 @template.layout.main(
 csrfHiddenInput = csrfHiddenInput,
@@ -11,7 +10,6 @@ content = @`
     <div class="bg-white shadow rounded-lg p-6">
         <form action="/apply-lesson" method="POST">
             ${csrfHiddenInput}
-            <input type="hidden" name="lessonId" value="${lessonId}">
             <div class="grid gap-6 mb-6 md:grid-cols-2">
                 <div>
                     <label for="language" class="block mb-2 text-sm font-medium text-gray-900">Translate to</label>

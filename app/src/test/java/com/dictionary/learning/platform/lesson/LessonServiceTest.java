@@ -71,6 +71,22 @@ class LessonServiceTest implements WithAssertions {
     }
 
     @Test
+    void testUpdateLessonRate() {
+        // given
+        long lessonId = 1;
+        double rate = 0.755;
+        Mockito.when(repository.findById(lessonId)).thenReturn(Optional.of(lesson));
+        Mockito.doNothing().when(lesson).setSuccessRate(rate);
+        Mockito.when(repository.save(lesson)).thenReturn(lesson);
+        // when
+        service.updateLessonRate(lessonId, rate);
+        // then
+        Mockito.verify(repository).findById(lessonId);
+        Mockito.verify(lesson).setSuccessRate(rate);
+        Mockito.verify(repository).save(lesson);
+    }
+
+    @Test
     void testSaveLesson() {
         // given
         Mockito.when(repository.save(ArgumentMatchers.any(Lesson.class))).thenReturn(lesson);

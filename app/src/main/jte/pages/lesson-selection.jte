@@ -44,7 +44,7 @@ content = @`
                         @if(lesson.successRate() <= 0.5)
                             text-red-700
                         @elseif(lesson.successRate() <= 0.9)
-                            text-yellow-800
+                            text-yellow-700
                         @else
                             text-green-700
                         @endif

@@ -26,6 +26,16 @@ public class LessonService {
         return repository.findAllByUserNamePaginated(DictionaryUtils.getPageRequest(page, pageSize), userName);
     }
 
+    public void updateLessonRate(long lessonId, double rate) {
+        Lesson lesson = findById(lessonId);
+
+        double previousRate = lesson.getSuccessRate() != null ? lesson.getSuccessRate() : 0;
+        double newRate = DictionaryUtils.computeAverage(rate, previousRate);
+
+        lesson.setSuccessRate(newRate);
+        saveLesson(lesson);
+    }
+
     Lesson saveLesson(Lesson lesson) {
         return repository.save(lesson);
     }

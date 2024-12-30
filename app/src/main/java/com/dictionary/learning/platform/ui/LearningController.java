@@ -23,8 +23,10 @@ public class LearningController {
 
     private final LessonService lessonService;
     private final WordService wordService;
+    private List<WordToCheck> wordsToCheck;
     private Iterator<WordToCheck> iterator;
     private WordToCheck wordToCheck;
+    private long lessonId;
 
     public LearningController(LessonService lessonService, WordService wordService) {
         this.lessonService = lessonService;
@@ -57,19 +59,18 @@ public class LearningController {
             @RequestParam long lessonId, Authentication authentication, HttpServletRequest request, Model model) {
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
-        model.addAttribute("lessonId", lessonId);
+        this.lessonId = lessonId;
 
         return "pages/language-selection";
     }
 
     @PostMapping("/apply-lesson")
-    public String applyLesson(
-            long lessonId, String language, Authentication authentication, HttpServletRequest request, Model model) {
+    public String applyLesson(String language, Authentication authentication, HttpServletRequest request, Model model) {
         ControllerUtils.addCsrfTokenToModel(request, model);
         UserDetails details = ControllerUtils.addUserDetailsToModel(authentication, model);
 
         if (details != null) {
-            List<WordToCheck> wordsToCheck = convertWordsToQuestionsAndAnswers(lessonId, language);
+            wordsToCheck = convertWordsToQuestionsAndAnswers(lessonId, language);
             iterator = wordsToCheck.iterator();
             if (iterator.hasNext()) {
                 setModelForGuessing(model);
@@ -87,6 +88,7 @@ public class LearningController {
         model.addAttribute("question", wordToCheck.question());
         model.addAttribute("answer", answer);
 
+        wordToCheck.counter().incrementAndGet();
         if (wordToCheck.answer().equals(answer)) {
             return "pages/checking";
         } else {
@@ -105,7 +107,21 @@ public class LearningController {
             return "pages/guessing";
         }
 
-        return "redirect:/";
+        return "redirect:/lesson-results";
+    }
+
+    @GetMapping("/lesson-results")
+    public String showLessonResults(Authentication authentication, HttpServletRequest request, Model model) {
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        int sum = wordsToCheck.stream().mapToInt(w -> w.counter().intValue()).sum();
+        double rate = DictionaryUtils.computeRate(wordsToCheck.size(), sum);
+        lessonService.updateLessonRate(lessonId, rate);
+
+        model.addAttribute("successRate", rate);
+
+        return "pages/lesson-results";
     }
 
     private void setModelForGuessing(Model model) {
@@ -121,10 +137,10 @@ public class LearningController {
         return words.stream().map(w -> setQuestionsAndAnswers(language, w)).toList();
     }
 
-    private WordToCheck setQuestionsAndAnswers(String language, WordDto w) {
+    private WordToCheck setQuestionsAndAnswers(String language, WordDto word) {
         return switch (language) {
-            case "EN" -> new WordToCheck(w.sk(), w.en());
-            case "SK" -> new WordToCheck(w.en(), w.sk());
+            case "EN" -> new WordToCheck(word.sk(), word.en());
+            case "SK" -> new WordToCheck(word.en(), word.sk());
             default -> new WordToCheck();
         };
     }
