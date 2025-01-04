@@ -41,9 +41,9 @@ content = @`
                             ${lesson.grade()}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap
-                        @if(lesson.successRate() <= 0.5)
+                        @if(lesson.successRate() < 0.5)
                             text-red-700
-                        @elseif(lesson.successRate() <= 0.9)
+                        @elseif(lesson.successRate() < 0.9)
                             text-yellow-700
                         @else
                             text-green-700
