@@ -17,6 +17,13 @@ class WordRepositoryTest extends BaseTestRepository implements WithAssertions {
     @Autowired
     private WordRepository repository;
 
+    @Test
+    void testFindByWordId() {
+        WordDto dto = repository.findByWordId(4L);
+        assertThat(dto.en()).isEqualTo("brother");
+        assertThat(dto.sk()).isEqualTo("brat");
+    }
+
     @ParameterizedTest
     @CsvSource({"0,5", "1,4"})
     void testFindAll(int pageNumber, int expected) {

@@ -4,7 +4,6 @@ import com.dictionary.learning.platform.lesson.Lesson;
 import com.dictionary.learning.platform.lesson.LessonService;
 import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.List;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 
 public final class WordService {
@@ -27,24 +26,27 @@ public final class WordService {
         return repository.findAllByLessonId(lessonId);
     }
 
-    public void saveWord(Word word) {
-        repository.save(word);
+    public WordDto findByWordId(long id) {
+        return repository.findByWordId(id);
     }
 
     public void addWord(long lessonId, String english, String slovak) {
         Lesson lesson = lessonService.findById(lessonId);
         Word word = createWord(english, slovak);
         word.setLesson(lesson);
-        saveWord(word);
+        repository.save(word);
+    }
+
+    public void updateWord(long wordId, String english, String slovak) {
+        repository.findById(wordId).ifPresent(w -> {
+            w.setEn(english);
+            w.setSk(slovak);
+            repository.save(w);
+        });
     }
 
     boolean wordExists(long id) {
         return repository.existsById(id);
-    }
-
-    @Nullable
-    Word findWord(long id) {
-        return repository.findById(id).orElse(null);
     }
 
     void deleteWord(long id) {

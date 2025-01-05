@@ -4,7 +4,6 @@ import com.dictionary.learning.platform.lesson.Lesson;
 import com.dictionary.learning.platform.lesson.LessonService;
 import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.List;
-import java.util.Optional;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,13 +65,15 @@ class WordServiceTest implements WithAssertions {
     }
 
     @Test
-    void testSaveWord() {
+    void testFindByWordId() {
         // given
-        Mockito.when(repository.save(ArgumentMatchers.any(Word.class))).thenReturn(word);
+        long wordId = 1;
+        WordDto wordDto = Mockito.mock(WordDto.class);
+        Mockito.when(repository.findByWordId(wordId)).thenReturn(wordDto);
         // when
-        service.saveWord(word);
+        service.findByWordId(wordId);
         // then
-        Mockito.verify(repository).save(ArgumentMatchers.any(Word.class));
+        Mockito.verify(repository).findByWordId(wordId);
     }
 
     @Test
@@ -90,6 +91,16 @@ class WordServiceTest implements WithAssertions {
     }
 
     @Test
+    void testUpdateWord() {
+        // given
+        Mockito.when(repository.save(ArgumentMatchers.any(Word.class))).thenReturn(word);
+        // when
+        service.addWord(1, "en", "sk");
+        // then
+        Mockito.verify(repository).save(ArgumentMatchers.any(Word.class));
+    }
+
+    @Test
     void testWordExists() {
         // given
         long id = 1;
@@ -99,17 +110,6 @@ class WordServiceTest implements WithAssertions {
         // then
         Mockito.verify(repository).existsById(id);
         assertThat(result).isTrue();
-    }
-
-    @Test
-    void testFindWord() {
-        // given
-        long id = 1;
-        Mockito.when(repository.findById(id)).thenReturn(Optional.of(word));
-        // when
-        service.findWord(id);
-        // then
-        Mockito.verify(repository).findById(id);
     }
 
     @Test

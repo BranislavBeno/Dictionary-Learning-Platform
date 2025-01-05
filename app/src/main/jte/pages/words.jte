@@ -6,7 +6,7 @@
 @param CsrfHiddenInput csrfHiddenInput
 @param List<WordDto> words
 @param List<Integer> pageNumbers
-@param int lessonId
+@param long lessonId
 @param String lesson
 @param int grade
 @param String forUser
@@ -63,6 +63,12 @@ content = @`
                     <th scope="col" class="px-6 py-3">
                         In slovak
                     </th>
+                    <th scope="col" class="px-6 py-3">
+                        Update word
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Remove word
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -73,6 +79,18 @@ content = @`
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             ${word.sk()}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            <a href="/existing-word?wordId=${word.id()}"
+                               class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 border border-transparent">
+                                Update
+                            </a>
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            <a href="/delete-word?wordId=${word.id()}"
+                               class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 border border-transparent">
+                                Remove
+                            </a>
                         </th>
                     </tr>
                 @endfor

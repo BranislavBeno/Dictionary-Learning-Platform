@@ -26,7 +26,7 @@ public class AdministrationController {
     private final LessonService lessonService;
     private final UserService userService;
     private String forUser;
-    private int lessonId;
+    private long lessonId;
 
     public AdministrationController(WordService wordService, LessonService lessonService, UserService userService) {
         this.wordService = wordService;
@@ -73,7 +73,7 @@ public class AdministrationController {
     @GetMapping("/manage-words")
     public String words(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam int lessonId,
+            @RequestParam long lessonId,
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
@@ -95,7 +95,7 @@ public class AdministrationController {
     }
 
     @PostMapping("/new-word")
-    public String newWord(
+    public String addNewWord(
             int grade,
             String lesson,
             String forUser,
@@ -111,10 +111,45 @@ public class AdministrationController {
         return "pages/word-adding";
     }
 
+    @GetMapping("/existing-word")
+    public String updateExistingWord(
+            @RequestParam long wordId, Authentication authentication, HttpServletRequest request, Model model) {
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        WordDto wordDto = wordService.findByWordId(wordId);
+        model.addAttribute("wordId", wordId);
+        model.addAttribute("english", wordDto.en());
+        model.addAttribute("slovak", wordDto.sk());
+
+        LessonDto lessonDto = lessonService.findByLessonId(wordDto.lesson().getId());
+        model.addAttribute("grade", lessonDto.grade());
+        model.addAttribute("lesson", lessonDto.title());
+        model.addAttribute("forUser", forUser);
+
+        return "pages/word-updating";
+    }
+
     @PostMapping("/add-word")
     public String addWord(
             String english, String slovak, Authentication authentication, HttpServletRequest request, Model model) {
         wordService.addWord(lessonId, english, slovak);
+
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
+    }
+
+    @PostMapping("/update-word")
+    public String updateWord(
+            long wordId,
+            String english,
+            String slovak,
+            Authentication authentication,
+            HttpServletRequest request,
+            Model model) {
+        wordService.updateWord(wordId, english, slovak);
 
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);

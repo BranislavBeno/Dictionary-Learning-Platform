@@ -10,7 +10,14 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     @Query(
             """
-         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.successRate)
+         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.successRate, w.lesson)
+         FROM Word w
+         WHERE w.id = :wordId""")
+    WordDto findByWordId(Long wordId);
+
+    @Query(
+            """
+         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.successRate, w.lesson)
          FROM Word w
          LEFT JOIN w.lesson l
          WHERE l.id = :lessonId""")
@@ -18,7 +25,7 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     @Query(
             """
-         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.successRate)
+         SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.successRate, w.lesson)
          FROM Word w
          LEFT JOIN w.lesson l
          WHERE l.id = :lessonId""")
