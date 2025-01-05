@@ -1,6 +1,8 @@
 package com.dictionary.learning.platform.lesson;
 
-public record LessonDto(long id, String title, int grade, Double successRate) {
+import com.dictionary.learning.platform.user.User;
+
+public record LessonDto(long id, String title, int grade, Double successRate, User user) {
 
     public LessonDto {
         if (successRate == null) {

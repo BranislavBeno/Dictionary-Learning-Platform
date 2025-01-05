@@ -1,5 +1,7 @@
 package com.dictionary.learning.platform.word;
 
+import com.dictionary.learning.platform.lesson.Lesson;
+import com.dictionary.learning.platform.lesson.LessonService;
 import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.List;
 import org.jspecify.annotations.Nullable;
@@ -8,10 +10,12 @@ import org.springframework.data.domain.Page;
 public final class WordService {
 
     private final WordRepository repository;
+    private final LessonService lessonService;
     private final int pageSize;
 
-    public WordService(WordRepository repository, int pageSize) {
+    public WordService(WordRepository repository, LessonService lessonService, int pageSize) {
         this.repository = repository;
+        this.lessonService = lessonService;
         this.pageSize = pageSize;
     }
 
@@ -27,6 +31,13 @@ public final class WordService {
         repository.save(word);
     }
 
+    public void addWord(long lessonId, String english, String slovak) {
+        Lesson lesson = lessonService.findById(lessonId);
+        Word word = createWord(english, slovak);
+        word.setLesson(lesson);
+        saveWord(word);
+    }
+
     boolean wordExists(long id) {
         return repository.existsById(id);
     }
@@ -40,9 +51,11 @@ public final class WordService {
         repository.deleteById(id);
     }
 
-    String compareTranslation(WordDto word, String translation, boolean toEn) {
-        String original = toEn ? word.en() : word.sk();
+    private Word createWord(String english, String slovak) {
+        Word word = new Word();
+        word.setEn(english);
+        word.setSk(slovak);
 
-        return original.equalsIgnoreCase(translation) ? null : original;
+        return word;
     }
 }

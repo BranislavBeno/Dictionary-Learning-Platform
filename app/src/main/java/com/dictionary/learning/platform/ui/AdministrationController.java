@@ -1,11 +1,10 @@
 package com.dictionary.learning.platform.ui;
 
-import com.dictionary.learning.platform.lesson.Lesson;
+import com.dictionary.learning.platform.lesson.LessonDto;
 import com.dictionary.learning.platform.lesson.LessonService;
 import com.dictionary.learning.platform.user.UserDto;
 import com.dictionary.learning.platform.user.UserService;
 import com.dictionary.learning.platform.utils.DictionaryUtils;
-import com.dictionary.learning.platform.word.Word;
 import com.dictionary.learning.platform.word.WordDto;
 import com.dictionary.learning.platform.word.WordService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +25,8 @@ public class AdministrationController {
     private final WordService wordService;
     private final LessonService lessonService;
     private final UserService userService;
+    private String forUser;
+    private int lessonId;
 
     public AdministrationController(WordService wordService, LessonService lessonService, UserService userService) {
         this.wordService = wordService;
@@ -46,60 +47,58 @@ public class AdministrationController {
     }
 
     @PostMapping("/set-up-user")
-    public String setUpUser(String forUser, Authentication authentication, HttpServletRequest request, Model model) {
-        ControllerUtils.addCsrfTokenToModel(request, model);
-        ControllerUtils.addUserDetailsToModel(authentication, model);
+    public String setUpUser(String forUser) {
+        this.forUser = forUser;
 
-        int grade = userService.findGradeByUsername(forUser);
-        model.addAttribute("grade", grade);
-        model.addAttribute("forUser", forUser);
-
-        return "pages/lesson-administration";
+        return "redirect:/manage-lessons?forUser=%s".formatted(forUser);
     }
 
-    @PostMapping("/set-up-lesson")
-    public String setUpLesson(
-            int grade,
-            int lesson,
-            String forUser,
+    @GetMapping("/manage-lessons")
+    public String manageLessons(
+            @RequestParam(defaultValue = "0") int page,
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
 
-        return "redirect:/manage-words?grade=%d&lesson=%d&forUser=%s".formatted(grade, lesson, forUser);
+        Page<LessonDto> lessons = lessonService.findAllByUserNamePaginated(page, forUser);
+        DictionaryUtils.PageData<LessonDto> pageData = DictionaryUtils.providePageData(lessons);
+        model.addAttribute("lessons", pageData.content());
+        model.addAttribute("pageNumbers", pageData.pageNumbers());
+
+        return "pages/lesson-administration";
     }
 
     @GetMapping("/manage-words")
     public String words(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam int grade,
-            @RequestParam int lesson,
-            @RequestParam String forUser,
+            @RequestParam int lessonId,
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
 
-        long lessonId = 1;
+        this.lessonId = lessonId;
+        LessonDto lesson = lessonService.findByLessonId(lessonId);
         Page<WordDto> words = wordService.findAllLessonIdPaginated(page, lessonId);
         DictionaryUtils.PageData<WordDto> pageData = DictionaryUtils.providePageData(words);
         model.addAttribute("words", pageData.content());
         model.addAttribute("pageNumbers", pageData.pageNumbers());
         model.addAttribute("forUser", forUser);
-        model.addAttribute("grade", grade);
-        model.addAttribute("lesson", lesson);
+        model.addAttribute("grade", lesson.grade());
+        model.addAttribute("lesson", lesson.title());
+        model.addAttribute("lessonId", lessonId);
 
         return "pages/words";
     }
 
-    @GetMapping("/new-word")
+    @PostMapping("/new-word")
     public String newWord(
-            @RequestParam int grade,
-            @RequestParam int lesson,
-            @RequestParam String forUser,
+            int grade,
+            String lesson,
+            String forUser,
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
@@ -114,35 +113,12 @@ public class AdministrationController {
 
     @PostMapping("/add-word")
     public String addWord(
-            int grade,
-            int lesson,
-            String forUser,
-            String english,
-            String slovak,
-            Authentication authentication,
-            HttpServletRequest request,
-            Model model) {
-        Word word = createWord(english, slovak);
-        long lessonId = 1;
-        addWord(lessonId, word);
+            String english, String slovak, Authentication authentication, HttpServletRequest request, Model model) {
+        wordService.addWord(lessonId, english, slovak);
 
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
 
-        return "redirect:/manage-words?grade=%d&lesson=%d&forUser=%s".formatted(grade, lesson, forUser);
-    }
-
-    private void addWord(long lessonId, Word word) {
-        Lesson lesson = lessonService.findById(lessonId);
-        word.setLesson(lesson);
-        wordService.saveWord(word);
-    }
-
-    private static Word createWord(String english, String slovak) {
-        Word word = new Word();
-        word.setEn(english);
-        word.setSk(slovak);
-
-        return word;
+        return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
     }
 }

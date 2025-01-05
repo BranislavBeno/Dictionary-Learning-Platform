@@ -1,5 +1,7 @@
 package com.dictionary.learning.platform.word;
 
+import com.dictionary.learning.platform.lesson.Lesson;
+import com.dictionary.learning.platform.lesson.LessonService;
 import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.List;
 import java.util.Optional;
@@ -7,8 +9,6 @@ import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -19,6 +19,9 @@ import org.springframework.data.domain.Page;
 class WordServiceTest implements WithAssertions {
 
     private static final int PAGE_SIZE = 5;
+
+    @Mock
+    private LessonService lessonService;
 
     @Mock
     private WordRepository repository;
@@ -33,7 +36,7 @@ class WordServiceTest implements WithAssertions {
 
     @BeforeEach
     void setUp() {
-        service = new WordService(repository, PAGE_SIZE);
+        service = new WordService(repository, lessonService, PAGE_SIZE);
     }
 
     @Test
@@ -73,6 +76,20 @@ class WordServiceTest implements WithAssertions {
     }
 
     @Test
+    void testAddWord() {
+        // given
+        long id = 1;
+        var lesson = Mockito.mock(Lesson.class);
+        Mockito.when(lessonService.findById(id)).thenReturn(lesson);
+        Mockito.when(repository.save(ArgumentMatchers.any(Word.class))).thenReturn(word);
+        // when
+        service.addWord(id, "en", "sk");
+        // then
+        Mockito.verify(lessonService).findById(id);
+        Mockito.verify(repository).save(ArgumentMatchers.any(Word.class));
+    }
+
+    @Test
     void testWordExists() {
         // given
         long id = 1;
@@ -104,13 +121,5 @@ class WordServiceTest implements WithAssertions {
         service.deleteWord(id);
         // then
         Mockito.verify(repository).deleteById(id);
-    }
-
-    @ParameterizedTest
-    @CsvSource({"Matka,false,", "matka,false,", "mama,false,Matka", "Mother,true,", "mother,true,", "mom,true,Mother"})
-    void testCompare(String translation, boolean toEn, String expected) {
-        var checked = new WordDto(1L, "Mother", "Matka", 0.0);
-        String result = service.compareTranslation(checked, translation, toEn);
-        assertThat(result).isEqualTo(expected);
     }
 }

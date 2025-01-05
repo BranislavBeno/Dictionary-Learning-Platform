@@ -6,9 +6,10 @@
 @param CsrfHiddenInput csrfHiddenInput
 @param List<WordDto> words
 @param List<Integer> pageNumbers
-@param String forUser
+@param int lessonId
+@param String lesson
 @param int grade
-@param int lesson
+@param String forUser
 
 @template.layout.main(
 csrfHiddenInput = csrfHiddenInput,
@@ -16,19 +17,25 @@ username = username,
 content = @`
     <div class="bg-white shadow rounded-lg p-6">
         <div class="flex flex-col items-end pb-6">
-            <div>
-                <a href="/new-word?grade=${grade}&lesson=${lesson}&forUser=${forUser}"
-                   class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border border-transparent">
-                    Add word...
-                </a>
-            </div>
+            <form action="/new-word" method="POST" autocomplete="off">
+                ${csrfHiddenInput}
+                <input type="hidden" name="lesson" value="${lesson}">
+                <input type="hidden" name="grade" value="${grade}">
+                <input type="hidden" name="forUser" value="${forUser}">
+                <div>
+                    <button type="submit"
+                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Add word...
+                    </button>
+                </div>
+            </form>
         </div>
         <div class="grid gap-6 mb-6 md:grid-cols-3">
             <div>
-                <label for="forUser" class="block mb-2 text-sm font-medium text-gray-900">For user</label>
-                <p id="forUser"
+                <label for="lesson" class="block mb-2 text-sm font-medium text-gray-900">Lesson</label>
+                <p id="lesson"
                    class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm bg-gray-200">
-                    ${forUser}
+                    ${lesson}
                 </p>
             </div>
             <div>
@@ -39,10 +46,10 @@ content = @`
                 </p>
             </div>
             <div>
-                <label for="lesson" class="block mb-2 text-sm font-medium text-gray-900">Lesson</label>
-                <p id="lesson"
+                <label for="forUser" class="block mb-2 text-sm font-medium text-gray-900">For user</label>
+                <p id="forUser"
                    class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm bg-gray-200">
-                    ${lesson}
+                    ${forUser}
                 </p>
             </div>
         </div>
@@ -84,7 +91,7 @@ content = @`
                                         rounded-r-lg
                                      @endif
                                     "
-                                       href="/manage-words?grade=${grade}&lesson=${lesson}&forUser=${forUser}&page=${pageNumber - 1}">
+                                       href="/manage-words?lessonId=${lessonId}&page=${pageNumber - 1}">
                                         ${pageNumber}
                                     </a>
                                 </li>

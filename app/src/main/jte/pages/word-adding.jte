@@ -4,7 +4,7 @@
 @param CsrfHiddenInput csrfHiddenInput
 @param String forUser
 @param int grade
-@param int lesson
+@param String lesson
 
 @template.layout.main(
 csrfHiddenInput = csrfHiddenInput,
@@ -14,10 +14,10 @@ content = @`
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Add word</h2>
         <div class="grid gap-6 mb-6 md:grid-cols-3">
             <div>
-                <label for="forUser" class="block mb-2 text-sm font-medium text-gray-900">For user</label>
-                <p id="forUser"
+                <label for="lesson" class="block mb-2 text-sm font-medium text-gray-900">Lesson</label>
+                <p id="lesson"
                    class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm bg-gray-200">
-                    ${forUser}
+                    ${lesson}
                 </p>
             </div>
             <div>
@@ -28,18 +28,15 @@ content = @`
                 </p>
             </div>
             <div>
-                <label for="lesson" class="block mb-2 text-sm font-medium text-gray-900">Lesson</label>
-                <p id="lesson"
+                <label for="forUser" class="block mb-2 text-sm font-medium text-gray-900">For user</label>
+                <p id="forUser"
                    class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 text-gray-900 sm:text-sm bg-gray-200">
-                    ${lesson}
+                    ${forUser}
                 </p>
             </div>
         </div>
         <form action="/add-word" method="POST" autocomplete="off">
             ${csrfHiddenInput}
-            <input type="hidden" name="forUser" value="${forUser}">
-            <input type="hidden" name="grade" value="${grade}">
-            <input type="hidden" name="lesson" value="${lesson}">
             <div class="grid gap-6 mb-6 md:grid-cols-2">
                 <div>
                     <label for="english" class="block mb-2 text-sm font-medium text-gray-900">In english</label>

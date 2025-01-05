@@ -18,7 +18,7 @@ public class LessonService {
         return repository.findById(lessonId).orElseThrow(LessonNotFound::new);
     }
 
-    LessonDto findByLessonId(long lessonId) {
+    public LessonDto findByLessonId(long lessonId) {
         return repository.findByLessonId(lessonId);
     }
 
