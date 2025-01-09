@@ -42,9 +42,9 @@ content = @`
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap
                         @if(lesson.successRate() < 0.5)
-                            text-red-700
+                            text-red-500
                         @elseif(lesson.successRate() < 0.9)
-                            text-yellow-700
+                            text-yellow-600
                         @else
                             text-green-700
                         @endif

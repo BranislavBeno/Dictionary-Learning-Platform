@@ -13,9 +13,9 @@ content = @`
         <br>
         <h1 class="text-2xl font-semibold mb-4
             @if(successRate < 0.5)
-                text-red-700
+                text-red-500
             @elseif(successRate < 0.9)
-                text-yellow-700
+                text-yellow-600
             @else
                 text-green-700
             @endif
