@@ -163,4 +163,11 @@ public class AdministrationController {
 
         return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
     }
+
+    @GetMapping("/delete-lesson")
+    public String deleteLesson(@RequestParam long lessonId) {
+        lessonService.deleteLesson(lessonId);
+
+        return "redirect:/manage-lessons?forUser=%s".formatted(forUser);
+    }
 }

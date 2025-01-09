@@ -36,6 +36,10 @@ public class LessonService {
         saveLesson(lesson);
     }
 
+    public void deleteLesson(long id) {
+        repository.deleteById(id);
+    }
+
     Lesson saveLesson(Lesson lesson) {
         return repository.save(lesson);
     }
@@ -47,9 +51,5 @@ public class LessonService {
     @Nullable
     Lesson findLesson(long id) {
         return repository.findById(id).orElse(null);
-    }
-
-    void deleteLesson(long id) {
-        repository.deleteById(id);
     }
 }
