@@ -130,6 +130,13 @@ public class AdministrationController {
         return "pages/word-updating";
     }
 
+    @GetMapping("/delete-word")
+    public String deleteWord(@RequestParam long wordId) {
+        wordService.deleteWord(wordId);
+
+        return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
+    }
+
     @PostMapping("/add-word")
     public String addWord(
             String english, String slovak, Authentication authentication, HttpServletRequest request, Model model) {

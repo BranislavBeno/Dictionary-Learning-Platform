@@ -45,11 +45,7 @@ public final class WordService {
         });
     }
 
-    boolean wordExists(long id) {
-        return repository.existsById(id);
-    }
-
-    void deleteWord(long id) {
+    public void deleteWord(long id) {
         repository.deleteById(id);
     }
 

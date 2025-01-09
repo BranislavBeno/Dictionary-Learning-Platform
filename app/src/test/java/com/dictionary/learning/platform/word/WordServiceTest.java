@@ -101,18 +101,6 @@ class WordServiceTest implements WithAssertions {
     }
 
     @Test
-    void testWordExists() {
-        // given
-        long id = 1;
-        Mockito.when(repository.existsById(id)).thenReturn(true);
-        // when
-        boolean result = service.wordExists(id);
-        // then
-        Mockito.verify(repository).existsById(id);
-        assertThat(result).isTrue();
-    }
-
-    @Test
     void testDeleteWord() {
         // given
         long id = 1;

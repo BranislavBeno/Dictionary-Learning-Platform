@@ -88,6 +88,7 @@ content = @`
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             <a href="/delete-word?wordId=${word.id()}"
+                               onclick="if (!(confirm('Are you sure you want to delete this word?'))) return false"
                                class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 border border-transparent">
                                 Remove
                             </a>
