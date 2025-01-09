@@ -1,6 +1,6 @@
 package com.dictionary.learning.platform.word;
 
-import com.dictionary.learning.platform.lesson.Lesson;
+import com.dictionary.learning.platform.lesson.LessonNotFound;
 import com.dictionary.learning.platform.lesson.LessonService;
 import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.List;
@@ -31,18 +31,27 @@ public final class WordService {
     }
 
     public void addWord(long lessonId, String english, String slovak) {
-        Lesson lesson = lessonService.findById(lessonId);
-        Word word = createWord(english, slovak);
-        word.setLesson(lesson);
-        repository.save(word);
+        lessonService
+                .findById(lessonId)
+                .ifPresentOrElse(
+                        lesson -> {
+                            Word word = createWord(english, slovak);
+                            word.setLesson(lesson);
+                            repository.save(word);
+                        },
+                        LessonNotFound::new);
     }
 
     public void updateWord(long wordId, String english, String slovak) {
-        repository.findById(wordId).ifPresent(w -> {
-            w.setEn(english);
-            w.setSk(slovak);
-            repository.save(w);
-        });
+        repository
+                .findById(wordId)
+                .ifPresentOrElse(
+                        w -> {
+                            w.setEn(english);
+                            w.setSk(slovak);
+                            repository.save(w);
+                        },
+                        WordNotFound::new);
     }
 
     public void deleteWord(long id) {

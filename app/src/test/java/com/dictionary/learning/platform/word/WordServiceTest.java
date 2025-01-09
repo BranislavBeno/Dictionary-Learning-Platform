@@ -4,6 +4,7 @@ import com.dictionary.learning.platform.lesson.Lesson;
 import com.dictionary.learning.platform.lesson.LessonService;
 import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.List;
+import java.util.Optional;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,7 +82,7 @@ class WordServiceTest implements WithAssertions {
         // given
         long id = 1;
         var lesson = Mockito.mock(Lesson.class);
-        Mockito.when(lessonService.findById(id)).thenReturn(lesson);
+        Mockito.when(lessonService.findById(id)).thenReturn(Optional.of(lesson));
         Mockito.when(repository.save(ArgumentMatchers.any(Word.class))).thenReturn(word);
         // when
         service.addWord(id, "en", "sk");
@@ -93,11 +94,14 @@ class WordServiceTest implements WithAssertions {
     @Test
     void testUpdateWord() {
         // given
-        Mockito.when(repository.save(ArgumentMatchers.any(Word.class))).thenReturn(word);
+        long wordId = 1;
+        Mockito.when(repository.findById(wordId)).thenReturn(Optional.of(word));
+        Mockito.when(repository.save(word)).thenReturn(word);
         // when
-        service.addWord(1, "en", "sk");
+        service.updateWord(wordId, "en", "sk");
         // then
-        Mockito.verify(repository).save(ArgumentMatchers.any(Word.class));
+        Mockito.verify(repository).findById(wordId);
+        Mockito.verify(repository).save(word);
     }
 
     @Test

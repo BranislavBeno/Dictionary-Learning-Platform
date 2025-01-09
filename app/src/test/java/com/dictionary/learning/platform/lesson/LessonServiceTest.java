@@ -6,7 +6,6 @@ import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -87,13 +86,16 @@ class LessonServiceTest implements WithAssertions {
     }
 
     @Test
-    void testSaveLesson() {
+    void testUpdateLesson() {
         // given
-        Mockito.when(repository.save(ArgumentMatchers.any(Lesson.class))).thenReturn(lesson);
+        long lessonId = 1;
+        Mockito.when(repository.findById(lessonId)).thenReturn(Optional.of(lesson));
+        Mockito.when(repository.save(lesson)).thenReturn(lesson);
         // when
-        service.saveLesson(lesson);
+        service.updateLesson(lessonId, "lesson", 1);
         // then
-        Mockito.verify(repository).save(ArgumentMatchers.any(Lesson.class));
+        Mockito.verify(repository).findById(lessonId);
+        Mockito.verify(repository).save(lesson);
     }
 
     @Test

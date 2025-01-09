@@ -69,7 +69,7 @@ content = @`
                             </a>
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            <a href="/update-lesson?lessonId=${lesson.id()}"
+                            <a href="/existing-lesson?lessonId=${lesson.id()}"
                                class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 border border-transparent">
                                 Update
                             </a>

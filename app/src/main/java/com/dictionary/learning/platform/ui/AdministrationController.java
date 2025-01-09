@@ -164,6 +164,37 @@ public class AdministrationController {
         return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
     }
 
+    @GetMapping("/existing-lesson")
+    public String updateExistingLesson(
+            @RequestParam long lessonId, Authentication authentication, HttpServletRequest request, Model model) {
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        LessonDto lessonDto = lessonService.findByLessonId(lessonId);
+        model.addAttribute("lessonId", lessonId);
+        model.addAttribute("grade", lessonDto.grade());
+        model.addAttribute("lesson", lessonDto.title());
+        model.addAttribute("forUser", forUser);
+
+        return "pages/lesson-updating";
+    }
+
+    @PostMapping("/update-lesson")
+    public String updateLesson(
+            long lessonId,
+            String lesson,
+            int grade,
+            Authentication authentication,
+            HttpServletRequest request,
+            Model model) {
+        lessonService.updateLesson(lessonId, lesson, grade);
+
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        return "redirect:/manage-lessons?forUser=%s".formatted(forUser);
+    }
+
     @GetMapping("/delete-lesson")
     public String deleteLesson(@RequestParam long lessonId) {
         lessonService.deleteLesson(lessonId);

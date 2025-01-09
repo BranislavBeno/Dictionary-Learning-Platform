@@ -1,6 +1,7 @@
 package com.dictionary.learning.platform.lesson;
 
 import com.dictionary.learning.platform.utils.DictionaryUtils;
+import java.util.Optional;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 
@@ -14,8 +15,8 @@ public class LessonService {
         this.pageSize = pageSize;
     }
 
-    public Lesson findById(long lessonId) {
-        return repository.findById(lessonId).orElseThrow(LessonNotFound::new);
+    public Optional<Lesson> findById(long lessonId) {
+        return repository.findById(lessonId);
     }
 
     public LessonDto findByLessonId(long lessonId) {
@@ -27,21 +28,32 @@ public class LessonService {
     }
 
     public void updateLessonRate(long lessonId, double rate) {
-        Lesson lesson = findById(lessonId);
-
-        double previousRate = lesson.getSuccessRate() != null ? lesson.getSuccessRate() : 0;
-        double newRate = DictionaryUtils.computeAverage(rate, previousRate);
-
-        lesson.setSuccessRate(newRate);
-        saveLesson(lesson);
+        repository
+                .findById(lessonId)
+                .ifPresentOrElse(
+                        l -> {
+                            double previousRate = l.getSuccessRate() != null ? l.getSuccessRate() : 0;
+                            double newRate = DictionaryUtils.computeAverage(rate, previousRate);
+                            l.setSuccessRate(newRate);
+                            repository.save(l);
+                        },
+                        LessonNotFound::new);
     }
 
     public void deleteLesson(long id) {
         repository.deleteById(id);
     }
 
-    Lesson saveLesson(Lesson lesson) {
-        return repository.save(lesson);
+    public void updateLesson(long lessonId, String lesson, int grade) {
+        repository
+                .findById(lessonId)
+                .ifPresentOrElse(
+                        l -> {
+                            l.setTitle(lesson);
+                            l.setGrade(grade);
+                            repository.save(l);
+                        },
+                        LessonNotFound::new);
     }
 
     boolean lessonExists(long id) {
