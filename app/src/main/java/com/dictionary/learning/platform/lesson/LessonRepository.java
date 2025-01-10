@@ -18,6 +18,13 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
             """
          SELECT new com.dictionary.learning.platform.lesson.LessonDto(l.id, l.title, l.grade, l.successRate, l.user)
          FROM Lesson l
+         LEFT JOIN l.user u""")
+    Page<LessonDto> findAllPaginated(Pageable pageable);
+
+    @Query(
+            """
+         SELECT new com.dictionary.learning.platform.lesson.LessonDto(l.id, l.title, l.grade, l.successRate, l.user)
+         FROM Lesson l
          LEFT JOIN l.user u
          WHERE u.username = :name""")
     Page<LessonDto> findAllByUserNamePaginated(Pageable pageable, String name);

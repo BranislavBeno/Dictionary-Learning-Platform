@@ -1,5 +1,7 @@
 package com.dictionary.learning.platform.lesson;
 
+import com.dictionary.learning.platform.user.User;
+import com.dictionary.learning.platform.user.UserRepository;
 import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.Optional;
 import org.assertj.core.api.WithAssertions;
@@ -17,7 +19,10 @@ class LessonServiceTest implements WithAssertions {
     private static final int PAGE_SIZE = 5;
 
     @Mock
-    private LessonRepository repository;
+    private LessonRepository lessonRepository;
+
+    @Mock
+    private UserRepository userRepository;
 
     @Mock
     private Page<LessonDto> lessonPage;
@@ -29,18 +34,18 @@ class LessonServiceTest implements WithAssertions {
 
     @BeforeEach
     void setUp() {
-        service = new LessonService(repository, PAGE_SIZE);
+        service = new LessonService(lessonRepository, userRepository, PAGE_SIZE);
     }
 
     @Test
     void testFindById() {
         // given
         long lessonId = 1;
-        Mockito.when(repository.findById(lessonId)).thenReturn(Optional.of(lesson));
+        Mockito.when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(lesson));
         // when
         service.findById(lessonId);
         // then
-        Mockito.verify(repository).findById(lessonId);
+        Mockito.verify(lessonRepository).findById(lessonId);
     }
 
     @Test
@@ -48,11 +53,11 @@ class LessonServiceTest implements WithAssertions {
         // given
         long lessonId = 1;
         LessonDto lessonDto = Mockito.mock(LessonDto.class);
-        Mockito.when(repository.findByLessonId(lessonId)).thenReturn(lessonDto);
+        Mockito.when(lessonRepository.findByLessonId(lessonId)).thenReturn(lessonDto);
         // when
         service.findByLessonId(lessonId);
         // then
-        Mockito.verify(repository).findByLessonId(lessonId);
+        Mockito.verify(lessonRepository).findByLessonId(lessonId);
     }
 
     @Test
@@ -60,13 +65,26 @@ class LessonServiceTest implements WithAssertions {
         // given
         int page = 1;
         String userName = "jane";
-        Mockito.when(repository.findAllByUserNamePaginated(DictionaryUtils.getPageRequest(page, PAGE_SIZE), userName))
+        Mockito.when(lessonRepository.findAllByUserNamePaginated(
+                        DictionaryUtils.getPageRequest(page, PAGE_SIZE), userName))
                 .thenReturn(lessonPage);
         // when
         service.findAllByUserNamePaginated(page, userName);
         // then
-        Mockito.verify(repository)
+        Mockito.verify(lessonRepository)
                 .findAllByUserNamePaginated(DictionaryUtils.getPageRequest(page, PAGE_SIZE), userName);
+    }
+
+    @Test
+    void testFindAllPaginated() {
+        // given
+        int page = 1;
+        Mockito.when(lessonRepository.findAllPaginated(DictionaryUtils.getPageRequest(page, PAGE_SIZE)))
+                .thenReturn(lessonPage);
+        // when
+        service.findAllPaginated(page);
+        // then
+        Mockito.verify(lessonRepository).findAllPaginated(DictionaryUtils.getPageRequest(page, PAGE_SIZE));
     }
 
     @Test
@@ -74,39 +92,43 @@ class LessonServiceTest implements WithAssertions {
         // given
         long lessonId = 1;
         double rate = 0.755;
-        Mockito.when(repository.findById(lessonId)).thenReturn(Optional.of(lesson));
+        Mockito.when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(lesson));
         Mockito.doNothing().when(lesson).setSuccessRate(rate);
-        Mockito.when(repository.save(lesson)).thenReturn(lesson);
+        Mockito.when(lessonRepository.save(lesson)).thenReturn(lesson);
         // when
         service.updateLessonRate(lessonId, rate);
         // then
-        Mockito.verify(repository).findById(lessonId);
+        Mockito.verify(lessonRepository).findById(lessonId);
         Mockito.verify(lesson).setSuccessRate(rate);
-        Mockito.verify(repository).save(lesson);
+        Mockito.verify(lessonRepository).save(lesson);
     }
 
     @Test
     void testUpdateLesson() {
         // given
         long lessonId = 1;
-        Mockito.when(repository.findById(lessonId)).thenReturn(Optional.of(lesson));
-        Mockito.when(repository.save(lesson)).thenReturn(lesson);
+        String userName = "jane";
+        var user = Mockito.mock(User.class);
+        Mockito.when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(lesson));
+        Mockito.when(userRepository.findByUsername(userName)).thenReturn(Optional.of(user));
+        Mockito.when(lessonRepository.save(lesson)).thenReturn(lesson);
         // when
-        service.updateLesson(lessonId, "lesson", 1);
+        service.updateLesson(lessonId, "lesson", 1, userName);
         // then
-        Mockito.verify(repository).findById(lessonId);
-        Mockito.verify(repository).save(lesson);
+        Mockito.verify(lessonRepository).findById(lessonId);
+        Mockito.verify(userRepository).findByUsername(userName);
+        Mockito.verify(lessonRepository).save(lesson);
     }
 
     @Test
     void testLessonExists() {
         // given
         long id = 1;
-        Mockito.when(repository.existsById(id)).thenReturn(true);
+        Mockito.when(lessonRepository.existsById(id)).thenReturn(true);
         // when
         boolean result = service.lessonExists(id);
         // then
-        Mockito.verify(repository).existsById(id);
+        Mockito.verify(lessonRepository).existsById(id);
         assertThat(result).isTrue();
     }
 
@@ -114,21 +136,21 @@ class LessonServiceTest implements WithAssertions {
     void testFindLesson() {
         // given
         long id = 1;
-        Mockito.when(repository.findById(id)).thenReturn(Optional.of(lesson));
+        Mockito.when(lessonRepository.findById(id)).thenReturn(Optional.of(lesson));
         // when
         service.findLesson(id);
         // then
-        Mockito.verify(repository).findById(id);
+        Mockito.verify(lessonRepository).findById(id);
     }
 
     @Test
     void testDeleteLesson() {
         // given
         long id = 1;
-        Mockito.doNothing().when(repository).deleteById(id);
+        Mockito.doNothing().when(lessonRepository).deleteById(id);
         // when
         service.deleteLesson(id);
         // then
-        Mockito.verify(repository).deleteById(id);
+        Mockito.verify(lessonRepository).deleteById(id);
     }
 }

@@ -21,8 +21,10 @@ class AppConfig {
 
     @Bean
     public LessonService lessonService(
-            @Autowired LessonRepository repository, @Value("${dictionary.service.page.size:10}") int pageSize) {
-        return new LessonService(repository, pageSize);
+            @Autowired LessonRepository lessonRepository,
+            @Autowired UserRepository userRepository,
+            @Value("${dictionary.service.page.size:10}") int pageSize) {
+        return new LessonService(lessonRepository, userRepository, pageSize);
     }
 
     @Bean

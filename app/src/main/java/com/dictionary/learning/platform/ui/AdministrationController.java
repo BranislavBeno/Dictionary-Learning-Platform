@@ -43,14 +43,7 @@ public class AdministrationController {
                 userService.findAllUsers().stream().map(UserDto::username).toList();
         model.addAttribute("users", users);
 
-        return "pages/user-administration";
-    }
-
-    @PostMapping("/set-up-user")
-    public String setUpUser(String forUser) {
-        this.forUser = forUser;
-
-        return "redirect:/manage-lessons?forUser=%s".formatted(forUser);
+        return "redirect:/manage-lessons";
     }
 
     @GetMapping("/manage-lessons")
@@ -62,7 +55,7 @@ public class AdministrationController {
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
 
-        Page<LessonDto> lessons = lessonService.findAllByUserNamePaginated(page, forUser);
+        Page<LessonDto> lessons = lessonService.findAllPaginated(page);
         DictionaryUtils.PageData<LessonDto> pageData = DictionaryUtils.providePageData(lessons);
         model.addAttribute("lessons", pageData.content());
         model.addAttribute("pageNumbers", pageData.pageNumbers());
@@ -82,6 +75,7 @@ public class AdministrationController {
 
         this.lessonId = lessonId;
         LessonDto lesson = lessonService.findByLessonId(lessonId);
+        this.forUser = lesson.user().getUsername();
         Page<WordDto> words = wordService.findAllLessonIdPaginated(page, lessonId);
         DictionaryUtils.PageData<WordDto> pageData = DictionaryUtils.providePageData(words);
         model.addAttribute("words", pageData.content());
@@ -174,7 +168,10 @@ public class AdministrationController {
         model.addAttribute("lessonId", lessonId);
         model.addAttribute("grade", lessonDto.grade());
         model.addAttribute("lesson", lessonDto.title());
-        model.addAttribute("forUser", forUser);
+        model.addAttribute("currentUser", lessonDto.user().getUsername());
+        List<String> users =
+                userService.findAllUsers().stream().map(UserDto::username).toList();
+        model.addAttribute("users", users);
 
         return "pages/lesson-updating";
     }
@@ -184,21 +181,22 @@ public class AdministrationController {
             long lessonId,
             String lesson,
             int grade,
+            String forUser,
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
-        lessonService.updateLesson(lessonId, lesson, grade);
+        lessonService.updateLesson(lessonId, lesson, grade, forUser);
 
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
 
-        return "redirect:/manage-lessons?forUser=%s".formatted(forUser);
+        return "redirect:/manage-lessons";
     }
 
     @GetMapping("/delete-lesson")
     public String deleteLesson(@RequestParam long lessonId) {
         lessonService.deleteLesson(lessonId);
 
-        return "redirect:/manage-lessons?forUser=%s".formatted(forUser);
+        return "redirect:/manage-lessons";
     }
 }

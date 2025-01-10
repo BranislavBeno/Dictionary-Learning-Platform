@@ -43,4 +43,11 @@ class LessonRepositoryTest extends BaseTestRepository implements WithAssertions 
         Page<LessonDto> lessons = repository.findAllByUserNamePaginated(PageRequest.of(pageNumber, 2), "jane");
         assertThat(lessons).hasSize(expected);
     }
+
+    @ParameterizedTest
+    @CsvSource({"0,2", "1,2"})
+    void testFindAllPaginated(int pageNumber, int expected) {
+        Page<LessonDto> lessons = repository.findAllPaginated(PageRequest.of(pageNumber, 2));
+        assertThat(lessons).hasSize(expected);
+    }
 }
