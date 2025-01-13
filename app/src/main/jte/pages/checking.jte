@@ -6,6 +6,7 @@
 @param String answer
 
 @template.layout.main(
+pageTitle = "Check word",
 csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`

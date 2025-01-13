@@ -8,6 +8,7 @@
 @param List<Integer> pageNumbers
 
 @template.layout.main(
+pageTitle = "Manage lessons",
 csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`

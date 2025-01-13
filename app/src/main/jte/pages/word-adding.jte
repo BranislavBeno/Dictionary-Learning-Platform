@@ -7,6 +7,7 @@
 @param String lesson
 
 @template.layout.main(
+pageTitle = "Add word",
 csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`

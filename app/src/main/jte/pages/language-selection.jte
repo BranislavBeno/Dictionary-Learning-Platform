@@ -4,6 +4,7 @@
 @param CsrfHiddenInput csrfHiddenInput
 
 @template.layout.main(
+pageTitle = "Select language",
 csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`

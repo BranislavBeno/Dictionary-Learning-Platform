@@ -10,6 +10,7 @@
 @param List<String> users
 
 @template.layout.main(
+pageTitle = "Update lesson",
 csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`

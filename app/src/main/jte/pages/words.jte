@@ -12,6 +12,7 @@
 @param String forUser
 
 @template.layout.main(
+pageTitle = "Manage words",
 csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`

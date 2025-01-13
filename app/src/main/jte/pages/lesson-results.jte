@@ -5,6 +5,7 @@
 @param double successRate
 
 @template.layout.main(
+pageTitle = "Lesson results",
 csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`

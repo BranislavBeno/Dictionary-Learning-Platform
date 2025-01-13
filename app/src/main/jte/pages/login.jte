@@ -5,6 +5,7 @@
 @param CsrfHiddenInput csrfHiddenInput
 
 @template.layout.default(
+pageTitle = "Sign in",
 content = @`
     <div class="min-h-screen flex items-center justify-center">
         <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">

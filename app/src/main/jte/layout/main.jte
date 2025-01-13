@@ -1,5 +1,6 @@
 @import com.dictionary.learning.platform.ui.CsrfHiddenInput
 
+@param String pageTitle = ""
 @param String username = ""
 @param CsrfHiddenInput csrfHiddenInput
 @param gg.jte.Content content
@@ -9,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dictionary learning</title>
+    <title>${pageTitle} | Dictionary learning</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">

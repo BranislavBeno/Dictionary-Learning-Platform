@@ -10,6 +10,7 @@
 @param String lesson
 
 @template.layout.main(
+pageTitle = "Update word",
 csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`

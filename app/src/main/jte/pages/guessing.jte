@@ -7,6 +7,7 @@
 @param boolean isCorrect
 
 @template.layout.main(
+pageTitle = "Guess word",
 csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`
