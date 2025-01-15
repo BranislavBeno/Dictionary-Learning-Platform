@@ -19,18 +19,10 @@ content = @`
     <div class="bg-white shadow rounded-lg p-6">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Manage words</h2>
         <div class="flex flex-col items-end pb-6">
-            <form action="/new-word" method="POST" autocomplete="off">
-                ${csrfHiddenInput}
-                <input type="hidden" name="lesson" value="${lesson}">
-                <input type="hidden" name="grade" value="${grade}">
-                <input type="hidden" name="forUser" value="${forUser}">
-                <div>
-                    <button type="submit"
-                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Add word...
-                    </button>
-                </div>
-            </form>
+            <a href="/new-word"
+               class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border border-transparent">
+                Add word...
+            </a>
         </div>
         <div class="grid gap-6 mb-6 md:grid-cols-3">
             <div>

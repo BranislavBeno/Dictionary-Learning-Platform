@@ -64,7 +64,7 @@ public class AdministrationController {
     }
 
     @GetMapping("/manage-words")
-    public String words(
+    public String manageWords(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam long lessonId,
             Authentication authentication,
@@ -85,24 +85,24 @@ public class AdministrationController {
         model.addAttribute("lesson", lesson.title());
         model.addAttribute("lessonId", lessonId);
 
-        return "pages/words";
+        return "pages/word-administration";
     }
 
-    @PostMapping("/new-word")
-    public String addNewWord(
-            int grade,
-            String lesson,
-            String forUser,
-            Authentication authentication,
-            HttpServletRequest request,
-            Model model) {
+    @GetMapping("/new-word")
+    public String addNewWord(Authentication authentication, HttpServletRequest request, Model model) {
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
-        model.addAttribute("forUser", forUser);
-        model.addAttribute("grade", grade);
-        model.addAttribute("lesson", lesson);
 
-        return "pages/word-adding";
+        LessonDto lessonDto = lessonService.findByLessonId(lessonId);
+        model.addAttribute("grade", lessonDto.grade());
+        model.addAttribute("lesson", lessonDto.title());
+        model.addAttribute("forUser", forUser);
+
+        model.addAttribute("wordId", -1L);
+        model.addAttribute("english", "");
+        model.addAttribute("slovak", "");
+
+        return "pages/word-saving";
     }
 
     @GetMapping("/existing-word")
@@ -111,49 +111,38 @@ public class AdministrationController {
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
 
+        LessonDto lessonDto = lessonService.findByLessonId(lessonId);
+        model.addAttribute("grade", lessonDto.grade());
+        model.addAttribute("lesson", lessonDto.title());
+        model.addAttribute("forUser", forUser);
+
         WordDto wordDto = wordService.findByWordId(wordId);
         model.addAttribute("wordId", wordId);
         model.addAttribute("english", wordDto.en());
         model.addAttribute("slovak", wordDto.sk());
 
-        LessonDto lessonDto = lessonService.findByLessonId(wordDto.lesson().getId());
-        model.addAttribute("grade", lessonDto.grade());
-        model.addAttribute("lesson", lessonDto.title());
-        model.addAttribute("forUser", forUser);
-
-        return "pages/word-updating";
+        return "pages/word-saving";
     }
 
-    @GetMapping("/delete-word")
-    public String deleteWord(@RequestParam long wordId) {
-        wordService.deleteWord(wordId);
-
-        return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
-    }
-
-    @PostMapping("/add-word")
-    public String addWord(
-            String english, String slovak, Authentication authentication, HttpServletRequest request, Model model) {
-        wordService.addWord(lessonId, english, slovak);
-
-        ControllerUtils.addCsrfTokenToModel(request, model);
-        ControllerUtils.addUserDetailsToModel(authentication, model);
-
-        return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
-    }
-
-    @PostMapping("/update-word")
-    public String updateWord(
+    @PostMapping("/save-word")
+    public String saveWord(
             long wordId,
             String english,
             String slovak,
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
-        wordService.updateWord(wordId, english, slovak);
+        wordService.saveWord(lessonId, wordId, english, slovak);
 
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
+    }
+
+    @GetMapping("/delete-word")
+    public String deleteWord(@RequestParam long wordId) {
+        wordService.deleteWord(wordId);
 
         return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
     }

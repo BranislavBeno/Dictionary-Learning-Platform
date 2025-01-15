@@ -9,7 +9,6 @@ import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -78,29 +77,19 @@ class WordServiceTest implements WithAssertions {
     }
 
     @Test
-    void testAddWord() {
+    void testSaveWord() {
         // given
-        long id = 1;
+        long wordId = 2;
+        long lessonId = 1;
         var lesson = Mockito.mock(Lesson.class);
-        Mockito.when(lessonService.findById(id)).thenReturn(Optional.of(lesson));
-        Mockito.when(repository.save(ArgumentMatchers.any(Word.class))).thenReturn(word);
-        // when
-        service.addWord(id, "en", "sk");
-        // then
-        Mockito.verify(lessonService).findById(id);
-        Mockito.verify(repository).save(ArgumentMatchers.any(Word.class));
-    }
-
-    @Test
-    void testUpdateWord() {
-        // given
-        long wordId = 1;
         Mockito.when(repository.findById(wordId)).thenReturn(Optional.of(word));
+        Mockito.when(lessonService.findById(lessonId)).thenReturn(Optional.of(lesson));
         Mockito.when(repository.save(word)).thenReturn(word);
         // when
-        service.updateWord(wordId, "en", "sk");
+        service.saveWord(lessonId, wordId, "en", "sk");
         // then
         Mockito.verify(repository).findById(wordId);
+        Mockito.verify(lessonService).findById(lessonId);
         Mockito.verify(repository).save(word);
     }
 

@@ -56,6 +56,7 @@ public class LessonService {
         userRepository.findByUsername(userName).ifPresent(lesson::setUser);
         lesson.setTitle(lessonName);
         lesson.setGrade(grade);
+
         lessonRepository.save(lesson);
     }
 }
