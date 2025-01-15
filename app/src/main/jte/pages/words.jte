@@ -17,6 +17,7 @@ csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`
     <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Manage words</h2>
         <div class="flex flex-col items-end pb-6">
             <form action="/new-word" method="POST" autocomplete="off">
                 ${csrfHiddenInput}

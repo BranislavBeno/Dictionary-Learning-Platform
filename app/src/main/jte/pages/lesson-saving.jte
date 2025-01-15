@@ -15,8 +15,8 @@ csrfHiddenInput = csrfHiddenInput,
 username = username,
 content = @`
     <div class="bg-white shadow rounded-lg p-6">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Update lesson</h2>
-        <form action="/update-lesson" method="POST" autocomplete="off">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Save lesson</h2>
+        <form action="/save-lesson" method="POST" autocomplete="off">
             ${csrfHiddenInput}
             <input type="hidden" name="lessonId" value="${lessonId}">
             <div class="grid gap-6 mb-6 md:grid-cols-3">
@@ -27,7 +27,7 @@ content = @`
                 </div>
                 <div>
                     <label for="grade" class="block mb-2 text-sm font-medium text-gray-900">Grade</label>
-                    <input type="text" id="grade" name="grade" value="${grade}" required
+                    <input type="number" id="grade" name="grade" value="${grade}" required
                            class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm">
                 </div>
                 <div>

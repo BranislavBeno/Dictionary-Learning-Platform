@@ -14,6 +14,12 @@ username = username,
 content = @`
     <div class="bg-white shadow rounded-lg p-6">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Manage lessons</h2>
+        <div class="flex flex-col items-end pb-6">
+            <a href="/new-lesson"
+               class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border border-transparent">
+                Add lesson...
+            </a>
+        </div>
         <div class="relative overflow-x-auto">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">

@@ -158,6 +158,22 @@ public class AdministrationController {
         return "redirect:/manage-words?lessonId=%s".formatted(lessonId);
     }
 
+    @GetMapping("/new-lesson")
+    public String addNewLesson(Authentication authentication, HttpServletRequest request, Model model) {
+        ControllerUtils.addCsrfTokenToModel(request, model);
+        ControllerUtils.addUserDetailsToModel(authentication, model);
+
+        model.addAttribute("lessonId", -1L);
+        model.addAttribute("grade", 0);
+        model.addAttribute("lesson", "");
+        model.addAttribute("currentUser", "");
+        List<String> users =
+                userService.findAllUsers().stream().map(UserDto::username).toList();
+        model.addAttribute("users", users);
+
+        return "pages/lesson-saving";
+    }
+
     @GetMapping("/existing-lesson")
     public String updateExistingLesson(
             @RequestParam long lessonId, Authentication authentication, HttpServletRequest request, Model model) {
@@ -173,11 +189,11 @@ public class AdministrationController {
                 userService.findAllUsers().stream().map(UserDto::username).toList();
         model.addAttribute("users", users);
 
-        return "pages/lesson-updating";
+        return "pages/lesson-saving";
     }
 
-    @PostMapping("/update-lesson")
-    public String updateLesson(
+    @PostMapping("/save-lesson")
+    public String saveLesson(
             long lessonId,
             String lesson,
             int grade,
@@ -185,7 +201,7 @@ public class AdministrationController {
             Authentication authentication,
             HttpServletRequest request,
             Model model) {
-        lessonService.updateLesson(lessonId, lesson, grade, forUser);
+        lessonService.saveLesson(lessonId, lesson, grade, forUser);
 
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);

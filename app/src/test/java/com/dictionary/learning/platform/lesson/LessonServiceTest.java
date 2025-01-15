@@ -104,7 +104,7 @@ class LessonServiceTest implements WithAssertions {
     }
 
     @Test
-    void testUpdateLesson() {
+    void testSaveLesson() {
         // given
         long lessonId = 1;
         String userName = "jane";
@@ -113,34 +113,11 @@ class LessonServiceTest implements WithAssertions {
         Mockito.when(userRepository.findByUsername(userName)).thenReturn(Optional.of(user));
         Mockito.when(lessonRepository.save(lesson)).thenReturn(lesson);
         // when
-        service.updateLesson(lessonId, "lesson", 1, userName);
+        service.saveLesson(lessonId, "lesson", 1, userName);
         // then
         Mockito.verify(lessonRepository).findById(lessonId);
         Mockito.verify(userRepository).findByUsername(userName);
         Mockito.verify(lessonRepository).save(lesson);
-    }
-
-    @Test
-    void testLessonExists() {
-        // given
-        long id = 1;
-        Mockito.when(lessonRepository.existsById(id)).thenReturn(true);
-        // when
-        boolean result = service.lessonExists(id);
-        // then
-        Mockito.verify(lessonRepository).existsById(id);
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    void testFindLesson() {
-        // given
-        long id = 1;
-        Mockito.when(lessonRepository.findById(id)).thenReturn(Optional.of(lesson));
-        // when
-        service.findLesson(id);
-        // then
-        Mockito.verify(lessonRepository).findById(id);
     }
 
     @Test

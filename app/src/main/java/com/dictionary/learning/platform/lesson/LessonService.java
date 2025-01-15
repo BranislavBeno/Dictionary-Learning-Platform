@@ -3,7 +3,6 @@ package com.dictionary.learning.platform.lesson;
 import com.dictionary.learning.platform.user.UserRepository;
 import com.dictionary.learning.platform.utils.DictionaryUtils;
 import java.util.Optional;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 
 public class LessonService {
@@ -51,25 +50,12 @@ public class LessonService {
         lessonRepository.deleteById(id);
     }
 
-    public void updateLesson(long lessonId, String lesson, int grade, String userName) {
-        lessonRepository
-                .findById(lessonId)
-                .ifPresentOrElse(
-                        l -> {
-                            userRepository.findByUsername(userName).ifPresent(l::setUser);
-                            l.setTitle(lesson);
-                            l.setGrade(grade);
-                            lessonRepository.save(l);
-                        },
-                        LessonNotFound::new);
-    }
+    public void saveLesson(long lessonId, String lessonName, int grade, String userName) {
+        Lesson lesson = lessonRepository.findById(lessonId).orElse(new Lesson());
 
-    boolean lessonExists(long id) {
-        return lessonRepository.existsById(id);
-    }
-
-    @Nullable
-    Lesson findLesson(long id) {
-        return lessonRepository.findById(id).orElse(null);
+        userRepository.findByUsername(userName).ifPresent(lesson::setUser);
+        lesson.setTitle(lessonName);
+        lesson.setGrade(grade);
+        lessonRepository.save(lesson);
     }
 }
