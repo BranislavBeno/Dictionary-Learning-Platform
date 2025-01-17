@@ -99,7 +99,7 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           images: '[
                   {
-                    "name": "beo-1975-dictionary-learning-platform",
+                    "name": "beo-1975-dictionary-learning",
                     "image":{
                       "registry_type": "DOCKER_HUB",
                       "registry": "beo1975",
