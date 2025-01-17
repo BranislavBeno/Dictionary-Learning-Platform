@@ -79,7 +79,7 @@ jobs:
           platforms: linux/amd64, linux/arm64
           push: true
           tags: |
-            beo1975/dictionary-learning-platform:0.2.0
+            beo1975/dictionary-learning-platform:1.0.0
             beo1975/dictionary-learning-platform:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
@@ -104,7 +104,7 @@ jobs:
                       "registry_type": "DOCKER_HUB",
                       "registry": "beo1975",
                       "repository": "dictionary-learning-platform",
-                      "tag": "0.2.0"
+                      "tag": "1.0.0"
                     }
                   }
                 ]'

@@ -14,8 +14,8 @@ apply(plugin = "io.spring.dependency-management")
 
 group = "com.dictionary.learning.platform"
 
-val versionMajor = 0
-val versionMinor = 2
+val versionMajor = 1
+val versionMinor = 0
 val versionPatch = 0
 
 version = "v$versionMajor.$versionMinor.$versionPatch"
