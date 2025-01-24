@@ -19,7 +19,7 @@ management:
         include: info,health,sbom
   info:
     git:
-      mode: simple
+      mode: full
 
 server:
   error:
