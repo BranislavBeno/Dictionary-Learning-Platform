@@ -3,7 +3,7 @@
 [![](https://img.shields.io/badge/Java-21-blue)](/app/build.gradle.kts)
 [![](https://img.shields.io/badge/Spring%20Boot-3.4.2-blue)](/app/build.gradle.kts)
 [![](https://img.shields.io/badge/Testcontainers-1.20.4-blue)](/app/build.gradle.kts)
-[![](https://img.shields.io/badge/Gradle-8.12-blue)](/gradle/wrapper/gradle-wrapper.properties)
+[![](https://img.shields.io/badge/Gradle-8.12.1-blue)](/gradle/wrapper/gradle-wrapper.properties)
 [![](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 # Simple web application for vocabulary learning
