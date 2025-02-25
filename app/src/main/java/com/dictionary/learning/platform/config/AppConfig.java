@@ -15,12 +15,12 @@ import org.springframework.context.annotation.Configuration;
 class AppConfig {
 
     @Bean
-    public UserService userService(@Autowired UserRepository repository) {
+    UserService userService(@Autowired UserRepository repository) {
         return new UserService(repository);
     }
 
     @Bean
-    public LessonService lessonService(
+    LessonService lessonService(
             @Autowired LessonRepository lessonRepository,
             @Autowired UserRepository userRepository,
             @Value("${dictionary.service.page.size:10}") int pageSize) {
@@ -28,7 +28,7 @@ class AppConfig {
     }
 
     @Bean
-    public WordService wordService(
+    WordService wordService(
             @Autowired WordRepository repository,
             @Autowired LessonService lessonService,
             @Value("${dictionary.service.page.size:10}") int pageSize) {

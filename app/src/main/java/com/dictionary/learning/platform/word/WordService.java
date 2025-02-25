@@ -33,8 +33,8 @@ public final class WordService {
         Word word = repository.findById(wordId).orElse(new Word());
 
         lessonService.findById(lessonId).ifPresent(word::setLesson);
-        word.setEn(english);
-        word.setSk(slovak);
+        word.setEn(english.trim());
+        word.setSk(slovak.trim());
 
         repository.save(word);
     }

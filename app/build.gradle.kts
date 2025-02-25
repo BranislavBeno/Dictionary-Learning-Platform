@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.git.properties)
     id("java-library-conventions")
     id("spotless-conventions")
+    id("openrewrite-conventions")
 }
 
 apply(plugin = "io.spring.dependency-management")

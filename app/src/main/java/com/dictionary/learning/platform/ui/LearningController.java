@@ -85,11 +85,13 @@ public class LearningController {
     public String checkWord(String answer, Authentication authentication, HttpServletRequest request, Model model) {
         ControllerUtils.addCsrfTokenToModel(request, model);
         ControllerUtils.addUserDetailsToModel(authentication, model);
-        model.addAttribute("question", wordToCheck.question());
+        model.addAttribute("question", wordToCheck.question().trim());
         model.addAttribute("answer", answer);
 
         wordToCheck.counter().incrementAndGet();
-        if (wordToCheck.answer().equals(answer)) {
+        String expected = normalizeText(wordToCheck.answer());
+        String actual = normalizeText(answer);
+        if (actual.equals(expected)) {
             return "pages/checking";
         } else {
             model.addAttribute("isCorrect", false);
@@ -143,5 +145,12 @@ public class LearningController {
             case "SK" -> new WordToCheck(word.en(), word.sk());
             default -> new WordToCheck();
         };
+    }
+
+    private static String normalizeText(String answer) {
+        String[] tokens = answer.toLowerCase().trim().split("\\s+");
+        String joined = String.join(" ", tokens);
+
+        return joined.replaceAll("[!,.?]", "");
     }
 }

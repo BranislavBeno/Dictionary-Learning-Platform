@@ -29,7 +29,7 @@ public class SecurityConfig {
      * @throws Exception if an error occurs while configuring the HttpSecurity
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 // Configure authorization rules
                 .authorizeHttpRequests(auth -> auth.requestMatchers(LOGIN_PAGE, "/error", "/actuator/info")
@@ -49,12 +49,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(@Autowired UserRepository userRepository) {
+    UserDetailsService userDetailsService(@Autowired UserRepository userRepository) {
         return new AppUserDetailsService(userRepository);
     }
 }
