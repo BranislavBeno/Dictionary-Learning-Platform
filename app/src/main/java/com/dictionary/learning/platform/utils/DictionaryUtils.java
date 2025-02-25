@@ -10,8 +10,8 @@ import org.springframework.data.domain.PageRequest;
 
 public class DictionaryUtils {
 
-    public static final int SCALE = 3;
-    public static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
+    private static final int SCALE = 3;
+    private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
 
     private DictionaryUtils() {}
 
