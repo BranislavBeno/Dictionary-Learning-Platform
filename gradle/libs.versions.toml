@@ -25,9 +25,15 @@ testcontainers-postgresql = { module = "org.testcontainers:postgresql" }
 # code quality
 palantir-javaformat = { module = "com.palantir.javaformat:palantir-java-format", version = "2.55.0" }
 
+# code migration
+rewrite-recipe-bom = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.3.0" }
+rewrite-migrate-java = { module = "org.openrewrite.recipe:rewrite-migrate-java" }
+rewrite-spring = { module = "org.openrewrite.recipe:rewrite-spring" }
+
 # gradle plugins
 diffplug-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version = "7.0.2" }
 #sonarqube = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin", version = "5.1.0.4882" }
+open-rewrite = { module = "org.openrewrite:plugin", version = "7.1.6" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version = "3.4.3" }
