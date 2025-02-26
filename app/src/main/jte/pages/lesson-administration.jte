@@ -105,7 +105,7 @@ content = @`
                                     rounded-r-lg
                                  @endif
                                 "
-                                       href="/lesson-selection?page=${pageNumber - 1}">
+                                       href="/manage-lessons?page=${pageNumber - 1}">
                                         ${pageNumber}
                                     </a>
                                 </li>
