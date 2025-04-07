@@ -44,9 +44,7 @@ dependencies {
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 
-gitProperties {
-    dotGitDirectory.set(File("${project.rootDir}/.git"))
-}
+gitProperties { dotGitDirectory.set(File("${project.rootDir}/.git")) }
 
 jte {
     generate()
