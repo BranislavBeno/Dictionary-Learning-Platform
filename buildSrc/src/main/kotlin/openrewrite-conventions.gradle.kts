@@ -16,6 +16,5 @@ rewrite {
     activeRecipe("org.openrewrite.java.RemoveUnusedImports")
     activeRecipe("org.openrewrite.java.OrderImports")
     activeRecipe("org.openrewrite.java.migrate.UpgradeToJava21")
-    activeRecipe("org.openrewrite.java.spring.boot3.SpringBoot33BestPractices")
-    activeRecipe("org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3")
+    activeRecipe("org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_4")
 }
