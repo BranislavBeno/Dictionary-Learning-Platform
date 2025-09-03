@@ -38,4 +38,4 @@ open-rewrite = { module = "org.openrewrite:plugin", version = "7.15.0" }
 [plugins]
 spring-boot = { id = "org.springframework.boot", version = "3.5.5" }
 gg-jte = { id = "gg.jte.gradle", version.ref = "gg-jte" }
-git-properties = { id = "com.gorylenko.gradle-git-properties", version = "2.5.2" }
+git-properties = { id = "com.gorylenko.gradle-git-properties", version = "2.5.3" }
