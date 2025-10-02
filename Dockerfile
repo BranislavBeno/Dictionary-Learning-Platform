@@ -7,7 +7,7 @@ RUN chmod +x gradlew && ./gradlew app:assemble && cp app/build/libs/dictionary-l
 # extrect layered jar file
 RUN java -Djarmode=layertools -jar dictionary-learning-platform.jar extract
 
-FROM azul/zulu-openjdk-alpine:21.0.8-jre-headless
+FROM azul/zulu-openjdk-alpine:21.0.8-21.44
 # install dumb-init
 RUN apk add --no-cache dumb-init=1.2.5-r3
 
