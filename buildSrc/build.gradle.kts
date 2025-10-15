@@ -20,9 +20,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().con
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_24)
 }
 
 tasks.withType<JavaCompile> {
-    java.targetCompatibility = JavaVersion.VERSION_21
+    java.targetCompatibility = JavaVersion.VERSION_25
 }
