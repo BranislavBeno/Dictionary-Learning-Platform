@@ -17,13 +17,13 @@ flyway-database-postgresql = { module = "org.flywaydb:flyway-database-postgresql
 gg-jte-jte={module="gg.jte:jte", version.ref="gg-jte"}
 gg-jte-spring-boot={module="gg.jte:jte-spring-boot-starter-3", version.ref="gg-jte"}
 org-jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
-testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version = "2.0.0" }
+testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version = "2.0.1" }
 testcontainers-common = { module = "org.testcontainers:testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter" }
 testcontainers-postgresql = { module = "org.testcontainers:postgresql" }
 
 # code quality
-palantir-javaformat = { module = "com.palantir.javaformat:palantir-java-format", version = "2.79.0" }
+palantir-javaformat = { module = "com.palantir.javaformat:palantir-java-format", version = "2.80.0" }
 
 # code migration
 rewrite-recipe-bom = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.16.0" }
