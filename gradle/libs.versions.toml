@@ -36,6 +36,6 @@ diffplug-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", v
 open-rewrite = { module = "org.openrewrite:plugin", version = "7.19.0" }
 
 [plugins]
-spring-boot = { id = "org.springframework.boot", version = "3.5.6" }
+spring-boot = { id = "org.springframework.boot", version = "3.5.7" }
 gg-jte = { id = "gg.jte.gradle", version.ref = "gg-jte" }
 git-properties = { id = "com.gorylenko.gradle-git-properties", version = "2.5.3" }
