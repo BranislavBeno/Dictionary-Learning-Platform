@@ -1,6 +1,10 @@
 spring:
   application:
     name: dictionary-learning-platform
+  web:
+    error:
+      whitelabel:
+        enabled: false
   jpa:
     hibernate:
       ddl-auto: none
@@ -20,11 +24,6 @@ management:
   info:
     git:
       mode: full
-
-server:
-  error:
-    whitelabel:
-      enabled: false
 
 gg:
   jte:

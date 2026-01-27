@@ -2,13 +2,15 @@
 gg-jte="3.2.2"
 
 [libraries]
-spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-webmvc" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-flyway = { module = "org.springframework.boot:spring-boot-starter-flyway" }
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-data-jpa-test = { module = "org.springframework.boot:spring-boot-starter-data-jpa-test" }
 spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 database-postgresql = { module = "org.postgresql:postgresql" }
@@ -18,9 +20,8 @@ gg-jte-jte={module="gg.jte:jte", version.ref="gg-jte"}
 gg-jte-spring-boot={module="gg.jte:jte-spring-boot-starter-3", version.ref="gg-jte"}
 org-jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version = "2.0.3" }
-testcontainers-common = { module = "org.testcontainers:testcontainers" }
-testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter" }
-testcontainers-postgresql = { module = "org.testcontainers:postgresql" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-junit-jupiter" }
+testcontainers-postgresql = { module = "org.testcontainers:testcontainers-postgresql" }
 
 # code quality
 palantir-javaformat = { module = "com.palantir.javaformat:palantir-java-format", version = "2.85.0" }
@@ -32,10 +33,9 @@ rewrite-spring = { module = "org.openrewrite.recipe:rewrite-spring" }
 
 # gradle plugins
 diffplug-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version = "8.2.0" }
-#sonarqube = { module = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin", version = "5.1.0.4882" }
 open-rewrite = { module = "org.openrewrite:plugin", version = "7.25.0" }
 
 [plugins]
-spring-boot = { id = "org.springframework.boot", version = "3.5.10" }
+spring-boot = { id = "org.springframework.boot", version = "4.0.2" }
 gg-jte = { id = "gg.jte.gradle", version.ref = "gg-jte" }
 git-properties = { id = "com.gorylenko.gradle-git-properties", version = "2.5.4" }

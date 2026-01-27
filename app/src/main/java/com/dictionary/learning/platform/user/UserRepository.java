@@ -9,8 +9,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String userName);
 
-    @Query(
-            """
+    @Query("""
                     SELECT new com.dictionary.learning.platform.user.UserDto(u.id, u.username)
                     FROM User u""")
     Set<UserDto> findAllUsers();
