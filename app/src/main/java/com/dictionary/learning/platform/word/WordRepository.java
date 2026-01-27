@@ -8,23 +8,20 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface WordRepository extends JpaRepository<Word, Long> {
 
-    @Query(
-            """
+    @Query("""
          SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.successRate, w.lesson)
          FROM Word w
          WHERE w.id = :wordId""")
     WordDto findByWordId(Long wordId);
 
-    @Query(
-            """
+    @Query("""
          SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.successRate, w.lesson)
          FROM Word w
          LEFT JOIN w.lesson l
          WHERE l.id = :lessonId""")
     Page<WordDto> findAllByLessonIdPaginated(Pageable pageable, long lessonId);
 
-    @Query(
-            """
+    @Query("""
          SELECT new com.dictionary.learning.platform.word.WordDto(w.id, w.en, w.sk, w.successRate, w.lesson)
          FROM Word w
          LEFT JOIN w.lesson l

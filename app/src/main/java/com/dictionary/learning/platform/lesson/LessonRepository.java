@@ -7,22 +7,19 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
-    @Query(
-            """
+    @Query("""
          SELECT new com.dictionary.learning.platform.lesson.LessonDto(l.id, l.title, l.grade, l.successRate, l.user)
          FROM Lesson l
          WHERE l.id = :lessonId""")
     LessonDto findByLessonId(Long lessonId);
 
-    @Query(
-            """
+    @Query("""
          SELECT new com.dictionary.learning.platform.lesson.LessonDto(l.id, l.title, l.grade, l.successRate, l.user)
          FROM Lesson l
          LEFT JOIN l.user u""")
     Page<LessonDto> findAllPaginated(Pageable pageable);
 
-    @Query(
-            """
+    @Query("""
          SELECT new com.dictionary.learning.platform.lesson.LessonDto(l.id, l.title, l.grade, l.successRate, l.user)
          FROM Lesson l
          LEFT JOIN l.user u
