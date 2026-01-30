@@ -24,7 +24,7 @@ testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-jun
 testcontainers-postgresql = { module = "org.testcontainers:testcontainers-postgresql" }
 
 # code quality
-palantir-javaformat = { module = "com.palantir.javaformat:palantir-java-format", version = "2.85.0" }
+palantir-javaformat = { module = "com.palantir.javaformat:palantir-java-format", version = "2.86.0" }
 
 # code migration
 rewrite-recipe-bom = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.23.0" }
@@ -32,7 +32,7 @@ rewrite-migrate-java = { module = "org.openrewrite.recipe:rewrite-migrate-java" 
 rewrite-spring = { module = "org.openrewrite.recipe:rewrite-spring" }
 
 # gradle plugins
-diffplug-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version = "8.2.0" }
+diffplug-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version = "8.2.1" }
 open-rewrite = { module = "org.openrewrite:plugin", version = "7.25.0" }
 
 [plugins]
