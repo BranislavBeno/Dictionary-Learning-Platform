@@ -13,6 +13,6 @@ public class ContainersConfig {
     @ServiceConnection
     @RestartScope
     PostgreSQLContainer postgresSqlContainer() {
-        return new PostgreSQLContainer("postgres:18.1");
+        return new PostgreSQLContainer("postgres:18.3");
     }
 }
