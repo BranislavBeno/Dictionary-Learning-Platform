@@ -54,6 +54,11 @@ jte {
 
 springBoot { buildInfo() }
 
-tasks.getByName<BootJar>("bootJar") { this.archiveFileName.set("dictionary-learning-platform.jar") }
+tasks.getByName<BootJar>("bootJar") {
+    layered {
+        enabled = true
+    }
+    this.archiveFileName.set("dictionary-learning-platform.jar")
+}
 
 tasks.getByName<BootRun>("bootTestRun") { this.jvmArgs = listOf("-Dspring.profiles.active=dev") }
