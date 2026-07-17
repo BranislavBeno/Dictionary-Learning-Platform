@@ -9,8 +9,8 @@ RUN java -Djarmode=layertools -jar dictionary-learning-platform.jar extract
 
 FROM azul/zulu-openjdk-alpine:25.0.3-jre-headless
 # install dumb-init
-RUN apk add --no-cache dumb-init=1.2.5-r3
-
+RUN apk update
+RUN apk add --no-cache --upgrade dumb-init
 # add specific non root user for running application
 RUN addgroup --system javauser && adduser -S -s /bin/false -G javauser javauser
 # set work directory
