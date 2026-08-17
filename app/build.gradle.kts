@@ -6,12 +6,11 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.gg.jte)
     alias(libs.plugins.git.properties)
+    id("org.springframework.boot") version "4.1.0"
     id("java-library-conventions")
     id("spotless-conventions")
     id("openrewrite-conventions")
 }
-
-apply(plugin = "io.spring.dependency-management")
 
 group = "com.dictionary.learning.platform"
 
