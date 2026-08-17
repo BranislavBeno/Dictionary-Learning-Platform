@@ -4,9 +4,9 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 plugins {
     java
     alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
     alias(libs.plugins.gg.jte)
     alias(libs.plugins.git.properties)
-    id("org.springframework.boot") version "4.1.0"
     id("java-library-conventions")
     id("spotless-conventions")
     id("openrewrite-conventions")
