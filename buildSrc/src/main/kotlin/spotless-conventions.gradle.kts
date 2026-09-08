@@ -12,11 +12,11 @@ spotless {
         importOrder()
         removeUnusedImports()
         target("*/**/*.java")
-        targetExclude("*/build/**/*.*")
+        targetExclude("build/**/*.*", "*/build/**/*.*")
     }
     kotlinGradle {
         ktfmt().kotlinlangStyle()
         target("*.gradle.kts")
-        targetExclude("*/build/**/*.*")
+        targetExclude("build/**/*.*", "*/build/**/*.*")
     }
 }
