@@ -5,6 +5,13 @@ plugins {
 }
 
 repositories {
+    maven {
+        url = uri("https://artifacts.codegenomeproject.org/maven")
+        credentials {
+            username = providers.gradleProperty("codegenome.project.user").getOrElse("")
+            password = providers.gradleProperty("codegenome.project.token").getOrElse("")
+        }
+    }
     mavenCentral()
     gradlePluginPortal()
 }
@@ -16,11 +23,11 @@ dependencies {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
-    compilerOptions.languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_2)
+    compilerOptions.languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_3)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.jvmTarget.set(JvmTarget.JVM_24)
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_25)
 }
 
 tasks.withType<JavaCompile> {

@@ -78,6 +78,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64, linux/arm64
           push: true
+          secrets: |
+            codegenome_token=${{ secrets.CODEGENOME_TOKEN }}
           tags: |
             beo1975/dictionary-learning-platform:1.0.0
             beo1975/dictionary-learning-platform:latest
