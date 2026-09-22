@@ -24,7 +24,7 @@ testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-jun
 testcontainers-postgresql = { module = "org.testcontainers:testcontainers-postgresql" }
 
 # code quality
-palantir-javaformat = { module = "com.palantir.javaformat:palantir-java-format", version = "2.97.0" }
+palantir-javaformat = { module = "com.palantir.javaformat:palantir-java-format", version = "2.98.0" }
 
 # code migration
 rewrite-recipe-bom = { module = "org.openrewrite.recipe:rewrite-recipe-bom", version = "3.38.0" }
