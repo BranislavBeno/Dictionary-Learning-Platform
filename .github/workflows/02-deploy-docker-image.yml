@@ -13,7 +13,7 @@ on:
 jobs:
   changes:
     name: Detect relevant source changes
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     outputs:
       app: ${{ steps.filter.outputs.app }}
@@ -43,7 +43,7 @@ jobs:
   build-docker-image:
     name: Build and deploy the docker image
     needs: changes
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     if: ${{ needs.changes.outputs.app == 'true' || needs.changes.outputs.libs-versions == 'true' || needs.changes.outputs.dockerfile == 'true' || needs.changes.outputs.workflow-deploy == 'true' }}
     steps:
       - name: Checkout Code
@@ -113,7 +113,7 @@ jobs:
 
   scan-docker-image:
     name: Check Docker image for vulnerabilities
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       security-events: write
     needs: build-docker-image
